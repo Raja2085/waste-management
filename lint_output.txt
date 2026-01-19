@@ -1,0 +1,274 @@
+
+> frontend@0.1.0 lint
+> eslint
+
+
+D:\waste\frontend\app\consumer\orders\[id]\page.tsx
+    8:5   warning  'Package' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   10:5   warning  'Calendar' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   12:5   warning  'Clock' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   14:5   warning  'Truck' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   46:9   error    Error: Cannot access variable before it is declared
+
+`fetchOrderDetails` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\app\consumer\orders\[id]\page.tsx:46:9
+  44 |
+  45 |     useEffect(() => {
+> 46 |         fetchOrderDetails();
+     |         ^^^^^^^^^^^^^^^^^ `fetchOrderDetails` accessed before it is declared
+  47 |     }, []);
+  48 |
+  49 |     const fetchOrderDetails = async () => {
+
+D:\waste\frontend\app\consumer\orders\[id]\page.tsx:49:5
+  47 |     }, []);
+  48 |
+> 49 |     const fetchOrderDetails = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |         const { data: { user } } = await supabase.auth.getUser();
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |         if (!user) return;
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 77 |         setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 78 |     };
+     | ^^^^^^^ `fetchOrderDetails` is declared here
+  79 |
+  80 |     if (loading) {
+  81 |         return (  react-hooks/immutability
+   47:8   warning  React Hook useEffect has a missing dependency: 'fetchOrderDetails'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+  171:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @next/next/no-img-element
+
+D:\waste\frontend\app\consumer\orders\page.tsx
+    5:37  warning  'MapPin' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+    5:64  warning  'Loader2' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   29:5   error    Error: Cannot access variable before it is declared
+
+`fetchOrders` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\app\consumer\orders\page.tsx:29:5
+  27 |
+  28 |   useEffect(() => {
+> 29 |     fetchOrders();
+     |     ^^^^^^^^^^^ `fetchOrders` accessed before it is declared
+  30 |   }, []);
+  31 |
+  32 |   /* ---------- Fetch Orders ---------- */
+
+D:\waste\frontend\app\consumer\orders\page.tsx:33:3
+  31 |
+  32 |   /* ---------- Fetch Orders ---------- */
+> 33 |   const fetchOrders = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 34 |     setLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 35 |     const {
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 62 |     setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 63 |   };
+     | ^^^^^ `fetchOrders` is declared here
+  64 |
+  65 |   /* ---------- Filter ---------- */
+  66 |   const filteredOrders = orders.filter((o) => {  react-hooks/immutability
+  165:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @next/next/no-img-element
+  232:24  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+
+D:\waste\frontend\app\consumer\page.tsx
+   9:6  warning  'Order' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  20:5  error    Error: Cannot access variable before it is declared
+
+`fetchStats` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\app\consumer\page.tsx:20:5
+  18 |
+  19 |   useEffect(() => {
+> 20 |     fetchStats();
+     |     ^^^^^^^^^^ `fetchStats` accessed before it is declared
+  21 |   }, []);
+  22 |
+  23 |   /* ---------- Fetch Dashboard Stats ---------- */
+
+D:\waste\frontend\app\consumer\page.tsx:24:3
+  22 |
+  23 |   /* ---------- Fetch Dashboard Stats ---------- */
+> 24 |   const fetchStats = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |     const { data: { user } } = await supabase.auth.getUser();
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |     if (!user) return;
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 46 |   };
+     | ^^^^^ `fetchStats` is declared here
+  47 |
+  48 |   return (
+  49 |     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">  react-hooks/immutability
+
+D:\waste\frontend\app\consumer\products\[id]\page.tsx
+    6:29  warning  'Tag' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+    7:8   warning  'Link' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   36:5   error    Error: Cannot access variable before it is declared
+
+`fetchProduct` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\app\consumer\products\[id]\page.tsx:36:5
+  34 |
+  35 |   useEffect(() => {
+> 36 |     fetchProduct();
+     |     ^^^^^^^^^^^^ `fetchProduct` accessed before it is declared
+  37 |   }, []);
+  38 |
+  39 |   const fetchProduct = async () => {
+
+D:\waste\frontend\app\consumer\products\[id]\page.tsx:39:3
+  37 |   }, []);
+  38 |
+> 39 |   const fetchProduct = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 40 |     const { data } = await supabase
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 41 |       .from("products")
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |     setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |   };
+     | ^^^^^ `fetchProduct` is declared here
+  52 |
+  53 |   const handleRequestPurchase = async () => {
+  54 |     if (!product) return;  react-hooks/immutability
+   37:6   warning  React Hook useEffect has a missing dependency: 'fetchProduct'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/exhaustive-deps
+  130:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @next/next/no-img-element
+  149:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @next/next/no-img-element
+  149:23  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       jsx-a11y/alt-text
+
+D:\waste\frontend\app\consumer\products\page.tsx
+   38:5   error    Error: Cannot access variable before it is declared
+
+`fetchProducts` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\app\consumer\products\page.tsx:38:5
+  36 |
+  37 |   useEffect(() => {
+> 38 |     fetchProducts();
+     |     ^^^^^^^^^^^^^ `fetchProducts` accessed before it is declared
+  39 |   }, []);
+  40 |
+  41 |   const fetchProducts = async () => {
+
+D:\waste\frontend\app\consumer\products\page.tsx:41:3
+  39 |   }, []);
+  40 |
+> 41 |   const fetchProducts = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 42 |     const { data } = await supabase
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |       .from("products")
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |       .select("*, address, district, state") // Explicitly select address fields
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |       .eq("status", "available") // Only show available products
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 46 |       .order("created_at", { ascending: false });
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 47 |
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 48 |     setProducts(data || []);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 49 |     setFiltered(data || []);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |   };
+     | ^^^^^ `fetchProducts` is declared here
+  51 |
+  52 |   const applyFilters = () => {
+  53 |     let result = [...products];  react-hooks/immutability
+  166:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @next/next/no-img-element
+
+D:\waste\frontend\app\consumer\profile\page.tsx
+    9:3   warning  'Building' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   15:3   warning  'Clock' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   34:40  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  244:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  476:17  error    Do not use an `<a>` element to navigate to `/consumer/products/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages                                                                                                                  @next/next/no-html-link-for-pages
+
+D:\waste\frontend\app\producer\analytics\page.tsx
+   37:6   warning  React Hook useEffect has a missing dependency: 'fetchAnalytics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  132:28  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+D:\waste\frontend\app\producer\dashboard\page.tsx
+    9:3   warning  'Recycle' is defined but never used                                                                                @typescript-eslint/no-unused-vars
+   21:3   warning  'CartesianGrid' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+   34:52  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+   35:56  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+   48:6   warning  React Hook useEffect has a missing dependency: 'fetchChartData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  107:11  error    'startDate' is never reassigned. Use 'const' instead                                                               prefer-const
+  268:40  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  385:71  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+D:\waste\frontend\app\producer\orders\page.tsx
+   10:3   warning  'Filter' is defined but never used         @typescript-eslint/no-unused-vars
+   11:3   warning  'Eye' is defined but never used            @typescript-eslint/no-unused-vars
+   12:3   warning  'MessageSquare' is defined but never used  @typescript-eslint/no-unused-vars
+   13:3   warning  'ArrowUpDown' is defined but never used    @typescript-eslint/no-unused-vars
+  135:52  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+D:\waste\frontend\app\producer\products\page.tsx
+   12:3   warning  'Plus' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   14:12  warning  'ImageIcon' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  356:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  356:63  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  357:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  400:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  491:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\waste\frontend\app\producer\profile\page.tsx
+    5:27  warning  'User' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  215:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\waste\frontend\components\Map.tsx
+  34:7  error  Error: Cannot access variable before it is declared
+
+`reverseGeocode` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\waste\frontend\components\Map.tsx:34:7
+  32 |       const fallback = { lat: 13.0827, lng: 80.2707 };
+  33 |       setLocation(fallback);
+> 34 |       reverseGeocode(fallback.lat, fallback.lng);
+     |       ^^^^^^^^^^^^^^ `reverseGeocode` accessed before it is declared
+  35 |       return;
+  36 |     }
+  37 |
+
+D:\waste\frontend\components\Map.tsx:56:3
+  54 |
+  55 |   /* ---------- REVERSE GEOCODE ---------- */
+> 56 |   const reverseGeocode = (lat: number, lng: number) => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |     if (!window.google) return;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 58 |
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 91 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 92 |   };
+     | ^^^^^ `reverseGeocode` is declared here
+  93 |
+  94 |   /* ---------- GUARD ---------- */
+  95 |   if (!isLoaded || !location) {  react-hooks/immutability
+
+D:\waste\frontend\components\MessagingSidebar.tsx
+  25:61  warning  'userType' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\waste\frontend\components\OrderTrackingMap.tsx
+  10:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 55 problems (20 errors, 35 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

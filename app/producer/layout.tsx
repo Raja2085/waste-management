@@ -10,6 +10,7 @@ import {
   Package,
   User,
   LogOut,
+  MessageSquare, // New Icon
 } from "lucide-react";
 import { supabase } from "@/src/lib/supabaseClient";
 
@@ -27,21 +28,50 @@ export default function ProducerLayout({
     router.push("/signin");
   };
 
+  /* ================= FETCH USER NAME ================= */
+  const [userName, setUserName] = useState("Producer");
+  const [initials, setInitials] = useState("P");
+
+  {/* UseEffect to fetch profile */ }
+  const { useEffect } = require("react");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("users")
+          .select("first_name, last_name")
+          .eq("id", user.id)
+          .single();
+
+        if (data) {
+          const first = data.first_name || "";
+          const last = data.last_name || "";
+          const full = `${first} ${last}`.trim() || user.email?.split("@")[0] || "Producer";
+          setUserName(full);
+          setInitials((first[0] || "P").toUpperCase());
+        }
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="h-screen bg-gray-100 flex overflow-hidden">
 
       {/* ================= SIDEBAR ================= */}
       <aside
-        className={`relative h-screen bg-white shadow-md transition-all duration-300
+        className={`relative h-full bg-white shadow-md transition-all duration-300 flex flex-col
         ${collapsed ? "w-16" : "w-64"}`}
       >
-        {/* Logo */}
-        <div className="h-16 flex items-center justify-center text-xl font-bold text-blue-600">
-          {collapsed ? "P" : "Producer"}
+        {/* Logo / Identity */}
+        <div className="h-16 flex items-center justify-center text-lg font-bold text-blue-600 shrink-0 border-b">
+          {collapsed ? initials : <span className="truncate px-4">{userName}</span>}
         </div>
 
         {/* Menu */}
-        <nav className="px-2 space-y-1 text-gray-900">
+        <nav className="px-2 space-y-1 text-gray-900 flex-1 overflow-y-auto mt-2">
           <SidebarItem
             title="Dashboard"
             href="/producer/dashboard"
@@ -75,6 +105,14 @@ export default function ProducerLayout({
           />
 
           <SidebarItem
+            title="Messages" // New Sidebar Item
+            href="/producer/messages"
+            icon={<MessageSquare size={20} />}
+            collapsed={collapsed}
+            active={pathname === "/producer/messages"}
+          />
+
+          <SidebarItem
             title="Profile"
             href="/producer/profile"
             icon={<User size={20} />}
@@ -84,7 +122,7 @@ export default function ProducerLayout({
         </nav>
 
         {/* 🔴 LOGOUT — FIXED */}
-        <div className="absolute bottom-4 w-full px-2">
+        <div className="p-2 border-t shrink-0">
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg
@@ -97,10 +135,10 @@ export default function ProducerLayout({
       </aside>
 
       {/* ================= MAIN ================= */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Topbar */}
-        <header className="h-16 bg-white shadow-sm flex items-center justify-between px-4">
+        <header className="h-16 bg-white shadow-sm flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setCollapsed(!collapsed)}
@@ -109,21 +147,27 @@ export default function ProducerLayout({
               ☰
             </button>
             <h1 className="text-lg font-semibold text-gray-900">
-              Dashboard
+              Producer Dashboard
             </h1>
           </div>
 
-          <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
-            P
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-right hidden md:block">
+              <p className="font-medium text-gray-900">{userName}</p>
+              <p className="text-xs text-gray-500">Producer</p>
+            </div>
+            <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+              {initials}
+            </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="p-6">
+        <main className="flex-1 p-6 overflow-y-auto">
           {children}
         </main>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 
@@ -145,11 +189,10 @@ function SidebarItem({
     <Link
       href={href}
       className={`flex items-center gap-3 px-3 py-2 rounded-lg transition
-      ${
-        active
+      ${active
           ? "bg-blue-100 text-blue-700"
           : "hover:bg-gray-100 text-gray-900"
-      }`}
+        }`}
     >
       <span className="text-blue-600">{icon}</span>
       {!collapsed && <span className="font-medium">{title}</span>}

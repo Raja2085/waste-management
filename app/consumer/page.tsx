@@ -2,217 +2,190 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
-import { ShoppingCart, X } from "lucide-react";
+import Link from "next/link";
+import { Package, ShoppingBag, User, ArrowRight, TrendingUp, Info } from "lucide-react";
 
 /* ---------- Types ---------- */
-type Product = {
+type Order = {
   id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  category: string;
-};
-
-type CartItem = {
-  id: string;
-  quantity: number;
-  products: Product;
+  total_amount: number;
 };
 
 export default function ConsumerDashboard() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const [searchInput, setSearchInput] = useState("");
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalSpent, setTotalSpent] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
-    fetchProducts();
-    fetchCart();
+    fetchStats();
   }, []);
 
-  /* ---------- Fetch Products ---------- */
-  const fetchProducts = async () => {
-    const { data } = await supabase
-      .from("products")
-      .select("id, name, price, quantity, category")
-      .order("created_at", { ascending: false });
+  /* ---------- Fetch Dashboard Stats ---------- */
+  const fetchStats = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
-    setProducts(data || []);
-    setLoading(false);
-  };
+    // Fetch user details from 'users' table
+    const { data: userData } = await supabase
+      .from("users")
+      .select("first_name")
+      .eq("id", user.id)
+      .single();
 
-  /* ---------- Fetch Cart ---------- */
-  const fetchCart = async () => {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) return;
+    setFirstName(userData?.first_name || "there");
 
     const { data } = await supabase
-      .from("cart_items")
-      .select("id, quantity, products(*)")
-      .eq("user_id", user.user.id);
+      .from("orders")
+      .select("id, total_price, quantity")
+      .eq("buyer_id", user.id);
 
-    setCartItems(data || []);
-    setCartCount(data?.length || 0);
+    setTotalOrders(data?.length || 0);
+    setTotalSpent(
+      data?.reduce((sum, o) => sum + o.total_price, 0) || 0
+    );
+    setTotalQuantity(
+      data?.reduce((sum, o) => sum + (o.quantity || 0), 0) || 0
+    );
   };
-
-  /* ---------- Add To Cart ---------- */
-  const addToCart = async (productId: string) => {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) return alert("Login first");
-
-    await supabase
-      .from("cart_items")
-      .upsert(
-        {
-          user_id: user.user.id,
-          product_id: productId,
-          quantity: 1,
-        },
-        { onConflict: "user_id,product_id" }
-      );
-
-    fetchCart();
-  };
-
-  const handleSearch = () => setSearch(searchInput);
-
-  const filteredProducts = products.filter((p) => {
-    const s = p.name.toLowerCase().includes(search.toLowerCase());
-    const c = category === "all" || p.category === category;
-    return s && c;
-  });
-
-  const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.products.price * item.quantity,
-    0
-  );
 
   return (
-    <div className="relative text-black">
-      <h1 className="text-2xl font-bold mb-6">Consumer Dashboard</h1>
+    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
 
-      {/* Toolbar */}
-      <div className="bg-white p-4 rounded-lg shadow flex items-center gap-4">
-
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="border px-4 py-2 rounded w-1/3"
-        />
-
-        <button
-          onClick={handleSearch}
-          className="bg-blue-600 text-white px-6 py-2 rounded"
-        >
-          Search
-        </button>
-
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border px-4 py-2 rounded"
-        >
-          <option value="all">All Categories</option>
-          <option value="electronics">Electronics</option>
-          <option value="grocery">Grocery</option>
-          <option value="fashion">Fashion</option>
-          <option value="general">General</option>
-        </select>
-
-        {/* Cart pushed RIGHT */}
-        <div className="ml-auto">
-          <button
-            onClick={() => setCartOpen(true)}
-            className="relative p-2 rounded-full hover:bg-gray-100"
-          >
-            <ShoppingCart className="w-7 h-7 text-blue-600" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                {cartCount}
-              </span>
-            )}
-          </button>
+      {/* HEADER SECTION */}
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+            Welcome back, {firstName} 👋
+          </h1>
+          <p className="text-gray-500 mt-2">
+            Overview of your waste management activities
+          </p>
         </div>
-      </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-gray-700 bg-gray-100 px-4 py-1.5 rounded-full border border-gray-200">
+            {firstName}
+          </span>
+        </div>
+      </header>
 
-      {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {filteredProducts.map((p) => (
-          <div key={p.id} className="bg-white p-5 rounded shadow">
-            <h3 className="font-semibold">{p.name}</h3>
-            <p className="text-sm">Category: {p.category}</p>
-            <p>Qty: {p.quantity}</p>
-            <p className="text-blue-600 font-bold">₹ {p.price}</p>
+      {/* STATS OVERVIEW */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <button
-              onClick={() => addToCart(p.id)}
-              className="mt-3 w-full bg-green-600 text-white py-2 rounded"
-            >
-              Add to Cart
-            </button>
+        {/* Total Orders Card */}
+        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-gray-500 font-medium text-sm">Total Orders</h3>
+            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100 transition-colors">
+              <Package size={20} />
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* Overlay */}
-      {cartOpen && (
-        <div
-          onClick={() => setCartOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40"
-        />
-      )}
-
-      {/* Cart Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-96 bg-white z-50 transform transition-transform duration-300 ${
-          cartOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="p-4 flex justify-between items-center border-b">
-          <h2 className="text-xl font-bold">Your Cart</h2>
-          <button onClick={() => setCartOpen(false)}>
-            <X />
-          </button>
+          <div className="flex items-end gap-2">
+            <span className="text-3xl font-bold text-gray-900">{totalOrders}</span>
+            <span className="text-xs text-gray-400 mb-1">orders placed</span>
+          </div>
         </div>
 
-        <div className="p-4 space-y-4 overflow-y-auto h-[70%]">
-          {cartItems.length === 0 ? (
-            <p className="text-gray-500">Cart is empty</p>
-          ) : (
-            cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex justify-between border-b pb-2"
-              >
-                <div>
-                  <p className="font-medium">{item.products.name}</p>
-                  <p className="text-sm">Qty: {item.quantity}</p>
+        {/* Total Spent Card */}
+        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-gray-500 font-medium text-sm">Total Contribution</h3>
+            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-100 transition-colors">
+              <ShoppingBag size={20} />
+            </div>
+          </div>
+          <div className="flex items-end gap-2">
+            <span className="text-3xl font-bold text-gray-900">₹{totalSpent.toLocaleString()}</span>
+            <span className="text-xs text-gray-400 mb-1">spent on materials</span>
+          </div>
+        </div>
+
+        {/* Impact Card */}
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-xl shadow-md text-white">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-white/80 font-medium text-sm">Environmental Impact</h3>
+            <TrendingUp size={20} className="text-white/80" />
+          </div>
+          <p className="text-2xl font-bold mt-2">{totalQuantity} kg</p>
+          <p className="text-xs text-indigo-100 mt-1 opacity-80">Waste diverted from landfills</p>
+        </div>
+      </div>
+
+      {/* QUICK ACTIONS GRID */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <Link href="/consumer/products" className="group">
+            <div className="bg-white hover:border-blue-500 border border-gray-200 p-6 rounded-xl transition-all duration-200 h-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer">
+              <div>
+                <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Package size={20} />
                 </div>
-                <p className="font-semibold">
-                  ₹ {item.products.price * item.quantity}
+                <h3 className="font-semibold text-gray-900 text-lg">Browse Listings</h3>
+                <p className="text-sm text-gray-500 mt-2">
+                  Explore available waste materials from producers near you.
                 </p>
               </div>
-            ))
-          )}
-        </div>
+              <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
+                Start browsing <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
 
-        <div className="p-4 border-t">
-          <div className="flex justify-between font-bold mb-4">
-            <span>Total</span>
-            <span>₹ {totalAmount}</span>
-          </div>
-          <button className="w-full bg-blue-600 text-white py-3 rounded">
-            Place Order
-          </button>
+          <Link href="/consumer/orders" className="group">
+            <div className="bg-white hover:border-blue-500 border border-gray-200 p-6 rounded-xl transition-all duration-200 h-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer">
+              <div>
+                <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <ShoppingBag size={20} />
+                </div>
+                <h3 className="font-semibold text-gray-900 text-lg">My Orders</h3>
+                <p className="text-sm text-gray-500 mt-2">
+                  Track your active orders and view your purchase history.
+                </p>
+              </div>
+              <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
+                View orders <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/consumer/profile" className="group">
+            <div className="bg-white hover:border-blue-500 border border-gray-200 p-6 rounded-xl transition-all duration-200 h-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer">
+              <div>
+                <div className="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <User size={20} />
+                </div>
+                <h3 className="font-semibold text-gray-900 text-lg">Profile Settings</h3>
+                <p className="text-sm text-gray-500 mt-2">
+                  Manage your account details and preferences.
+                </p>
+              </div>
+              <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
+                Update profile <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
         </div>
       </div>
+
+      {/* INFO CARD */}
+      <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col md:flex-row gap-4 items-start">
+        <div className="p-2 bg-blue-100 text-blue-600 rounded-full shrink-0">
+          <Info size={24} />
+        </div>
+        <div>
+          <h3 className="font-semibold text-blue-900 text-lg">How it works</h3>
+          <p className="text-blue-700/80 mt-1 max-w-3xl leading-relaxed">
+            Our platform connects you directly with producers. Browse listings, filter by the materials you need, and place orders securely.
+            We ensure transparency and efficiency in every transaction to help you manage your resources effectively.
+          </p>
+        </div>
+      </div>
+
     </div>
   );
 }

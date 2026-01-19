@@ -20,21 +20,19 @@ export default function SignupPage() {
     e.preventDefault();
     setErrorMsg("");
 
-    // ❌ Password mismatch
     if (password !== confirmPassword) {
-      setErrorMsg("Password and Confirm Password do not match");
+      setErrorMsg("Passwords do not match");
       return;
     }
 
-    // ❌ Role not selected
     if (!role) {
-      setErrorMsg("Please select Producer or Consumer");
+      setErrorMsg("Please select a role");
       return;
     }
 
     setLoading(true);
 
-    // 🔐 Supabase Auth Signup
+    // 1️⃣ Auth signup
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -48,47 +46,44 @@ export default function SignupPage() {
 
     const user = data.user;
 
-    // 🧾 Insert user profile
-    const { error: insertError } = await supabase.from("users").insert({
-      id: user.id,
-      email,
-      role,
-      first_name: firstName,
-      last_name: lastName,
-    });
+    // 2️⃣ Insert into users table
+    const { error: userInsertError } = await supabase
+      .from("users")
+      .insert({
+        id: user.id,
+        email,
+        role,
+        first_name: firstName,
+        last_name: lastName,
+      });
 
-    if (insertError) {
-      setErrorMsg(insertError.message);
+    if (userInsertError) {
+      setErrorMsg(userInsertError.message);
       setLoading(false);
       return;
     }
 
-    // ✅ Redirect to Signin (NO success message)
+    // ✅ consumer_profiles is created automatically by trigger
     router.push("/signin");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 text-black">
-        
         <h2 className="text-3xl font-bold text-center mb-2">Sign Up</h2>
         <p className="text-center mb-6">
           Enter your details to create an account
         </p>
 
-        <form
-          className="space-y-4 flex flex-col items-center"
-          onSubmit={handleSignup}
-        >
-          {/* First & Last Name */}
-          <div className="flex gap-3 w-full justify-center">
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div className="flex gap-3">
             <input
               type="text"
               placeholder="First Name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
-              className="w-[170px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+              className="w-1/2 border rounded-lg px-4 py-2"
             />
             <input
               type="text"
@@ -96,82 +91,63 @@ export default function SignupPage() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
-              className="w-[170px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+              className="w-1/2 border rounded-lg px-4 py-2"
             />
           </div>
 
-          {/* Role */}
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-full border rounded-lg px-4 py-2"
           >
             <option value="">Select Role</option>
-            <option value="producer">Producer (Waste Generator)</option>
-            <option value="consumer">Consumer (Waste Buyer)</option>
+            <option value="producer">Producer</option>
+            <option value="consumer">Consumer</option>
           </select>
 
-          {/* Email */}
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-full border rounded-lg px-4 py-2"
           />
 
-          {/* Password */}
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-full border rounded-lg px-4 py-2"
           />
 
-          {/* Confirm Password */}
           <input
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-full border rounded-lg px-4 py-2"
           />
 
-          {/* ❌ INLINE ERROR MESSAGE */}
           {errorMsg && (
-            <p className="w-[350px] text-left text-sm text-red-600">
-              {errorMsg}
-            </p>
+            <p className="text-sm text-red-600">{errorMsg}</p>
           )}
 
-          {/* Terms */}
-          <div className="flex items-start gap-2 text-sm w-[350px]">
-            <input type="checkbox" required className="mt-1 accent-blue-600" />
-            <p>
-              I agree to the{" "}
-              <span className="underline cursor-pointer">Terms</span> and{" "}
-              <span className="underline cursor-pointer">Privacy Policy</span>
-            </p>
-          </div>
-
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-[140px] bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
           >
             {loading ? "Creating..." : "Sign Up"}
           </button>
 
-          {/* Footer */}
-          <p className="text-center text-sm mt-6">
+          <p className="text-center text-sm">
             Already have an account?{" "}
-            <a href="/signin" className="font-semibold underline text-blue-600">
+            <a href="/signin" className="underline text-blue-600">
               Sign In
             </a>
           </p>
