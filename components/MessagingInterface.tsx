@@ -30,7 +30,11 @@ type Conversation = {
     unreadCount: number;
 };
 
-function MessagingInterfaceContent() {
+type MessagingInterfaceProps = {
+    userType?: "producer" | "consumer";
+};
+
+function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
     const searchParams = useSearchParams();
     const sellerIdParam = searchParams.get("sellerId");
     const productNameParam = searchParams.get("productName");
@@ -540,10 +544,10 @@ function MessagingInterfaceContent() {
     );
 }
 
-export default function MessagingInterface() {
+export default function MessagingInterface(props: MessagingInterfaceProps) {
     return (
         <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="animate-spin text-blue-600" /></div>}>
-            <MessagingInterfaceContent />
+            <MessagingInterfaceContent {...props} />
         </Suspense>
     );
 }
