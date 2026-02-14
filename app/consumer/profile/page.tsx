@@ -212,7 +212,7 @@ export default function ConsumerProfilePage() {
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 text-black p-6 max-w-7xl mx-auto relative">
+    <div className="space-y-8 animate-in fade-in duration-500 text-black dark:text-gray-100 p-6 max-w-7xl mx-auto relative">
 
       {/* SUCCESS TOAST */}
       {successMsg && (
@@ -225,8 +225,8 @@ export default function ConsumerProfilePage() {
       {/* HEADER Actions */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Your Profile</h1>
-          <p className="text-gray-500 mt-1">Manage your account settings and view order history.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Your Profile</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your account settings and view order history.</p>
         </div>
         {!editing && (
           <button
@@ -239,11 +239,11 @@ export default function ConsumerProfilePage() {
       </div>
 
       {/* HEADER INFO CARD */}
-      <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm flex flex-col md:flex-row items-center gap-8">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm flex flex-col md:flex-row items-center gap-8">
         <label className={`relative group ${editing ? "cursor-pointer" : ""}`}>
           <img
             src={profile.profile_image || "/placeholder.png"}
-            className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg bg-gray-100"
+            className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg bg-gray-100 dark:bg-gray-700"
             alt="Profile"
           />
           {editing && (
@@ -263,16 +263,16 @@ export default function ConsumerProfilePage() {
         </label>
 
         <div className="text-center md:text-left flex-1">
-          <h2 className="text-2xl font-bold text-gray-900">{profile.company_name || "Consumer Account"}</h2>
-          <p className="text-gray-500 mt-1 flex items-center justify-center md:justify-start gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{profile.company_name || "Consumer Account"}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1 flex items-center justify-center md:justify-start gap-2">
             <Mail size={16} /> {profile.email}
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 mt-4">
-            <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm font-medium border border-green-100">
+            <span className="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium border border-green-100 dark:border-green-800">
               Consumer Account
             </span>
             {profile.state && (
-              <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-full text-sm border border-gray-200 flex items-center gap-1">
+              <span className="px-3 py-1 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm border border-gray-200 dark:border-gray-600 flex items-center gap-1">
                 <MapPin size={12} /> {profile.district ? `${profile.district}, ` : ""}{profile.state}
               </span>
             )}
@@ -281,15 +281,15 @@ export default function ConsumerProfilePage() {
       </div>
 
       {/* TABS NAVIGATION */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <div className="flex gap-8">
           {tabs.map((t) => (
             <button
               key={t}
               onClick={() => setActiveTab(t)}
               className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === t
-                ? "text-blue-600"
-                : "text-gray-500 hover:text-gray-700"
+                ? "text-blue-600 dark:text-blue-400"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
             >
               {t}
@@ -302,17 +302,17 @@ export default function ConsumerProfilePage() {
       </div>
 
       {/* CONTENT AREA */}
-      <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm min-h-[400px]">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm min-h-[400px]">
 
         {/* ================= ACCOUNT INFO ================= */}
         {activeTab === "Account Info" && (
           <div className="space-y-8 max-w-3xl animate-in fade-in delay-75">
             <div className="grid grid-cols-1 gap-6">
 
-              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Personal Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b dark:border-gray-700 pb-2">Personal Information</h3>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Display Name / Company</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Display Name / Company</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
@@ -321,7 +321,7 @@ export default function ConsumerProfilePage() {
                     onChange={(e) =>
                       setProfile({ ...profile, company_name: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                     placeholder="Enter your name or company"
                   />
                 </div>
@@ -329,19 +329,19 @@ export default function ConsumerProfilePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                     <input
                       disabled
                       value={profile.email}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-500 dark:text-gray-400 cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                     <input
@@ -350,7 +350,7 @@ export default function ConsumerProfilePage() {
                       onChange={(e) =>
                         setProfile({ ...profile, phone: e.target.value })
                       }
-                      className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -362,7 +362,7 @@ export default function ConsumerProfilePage() {
               <div className="pt-6 border-t flex justify-end gap-3">
                 <button
                   onClick={() => setEditing(false)}
-                  className="px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition"
+                  className="px-6 py-2.5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                 >
                   Cancel
                 </button>
@@ -381,7 +381,7 @@ export default function ConsumerProfilePage() {
         {activeTab === "Address Details" && (
           <div className="space-y-6 max-w-3xl animate-in fade-in delay-75">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Delivery Location</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Delivery Location</h3>
               {editing && (
                 <button
                   onClick={handleUseLocation}
@@ -400,40 +400,40 @@ export default function ConsumerProfilePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State</label>
                 <input
                   disabled={!editing}
                   value={profile.state}
                   onChange={(e) =>
                     setProfile({ ...profile, state: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="State"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">District</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">District</label>
                 <input
                   disabled={!editing}
                   value={profile.district}
                   onChange={(e) =>
                     setProfile({ ...profile, district: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="District"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Address</label>
               <textarea
                 disabled={!editing}
                 value={profile.address}
                 onChange={(e) =>
                   setProfile({ ...profile, address: e.target.value })
                 }
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none text-gray-900 dark:text-gray-100"
                 placeholder="Enter full street address for deliveries"
               />
             </div>
@@ -442,7 +442,7 @@ export default function ConsumerProfilePage() {
               <div className="pt-6 border-t mt-8 flex justify-end gap-3">
                 <button
                   onClick={() => setEditing(false)}
-                  className="px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition"
+                  className="px-6 py-2.5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                 >
                   Cancel
                 </button>
@@ -461,16 +461,16 @@ export default function ConsumerProfilePage() {
         {activeTab === "Recent Activity" && (
           <div className="space-y-6 animate-in fade-in delay-75">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Order History</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Order History</h3>
             </div>
 
             {orders.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center border-2 border-dashed border-gray-100 rounded-2xl">
-                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 text-gray-400">
+              <div className="flex flex-col items-center justify-center py-20 text-center border-2 border-dashed border-gray-100 dark:border-gray-700 rounded-2xl">
+                <div className="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                   <ShoppingBag size={24} />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900">No orders yet</h3>
-                <p className="text-gray-500 max-w-sm mt-2">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">No orders yet</h3>
+                <p className="text-gray-500 dark:text-gray-400 max-w-sm mt-2">
                   Once you purchase waste materials, your order history will appear here.
                 </p>
                 <a href="/consumer/products" className="mt-6 text-blue-600 font-medium hover:underline">
@@ -478,9 +478,9 @@ export default function ConsumerProfilePage() {
                 </a>
               </div>
             ) : (
-              <div className="overflow-hidden bg-white border border-gray-100 rounded-xl">
+              <div className="overflow-hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl">
                 <table className="w-full text-left border-collapse">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-100">
+                  <thead className="bg-gray-50 dark:bg-gray-900/50 text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold border-b border-gray-100 dark:border-gray-700">
                     <tr>
                       <th className="px-6 py-4">Order ID</th>
                       <th className="px-6 py-4">Product Name</th>
@@ -489,30 +489,30 @@ export default function ConsumerProfilePage() {
                       <th className="px-6 py-4">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                     {orders.map((o) => (
-                      <tr key={o.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={o.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
                         <td className="px-6 py-4 font-mono text-sm text-gray-500">
                           #{o.id.slice(0, 8)}...
                         </td>
-                        <td className="px-6 py-4 font-medium text-gray-900">
+                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
                           {o.products?.name || "Unknown Product"}
                         </td>
-                        <td className="px-6 py-4 text-gray-600 text-sm">
+                        <td className="px-6 py-4 text-gray-600 dark:text-gray-400 text-sm">
                           <div className="flex items-center gap-2">
                             <Calendar size={14} className="text-gray-400" />
                             {new Date(o.created_at).toLocaleDateString()}
                           </div>
                         </td>
-                        <td className="px-6 py-4 font-semibold text-gray-900">
+                        <td className="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">
                           ₹{o.total_amount?.toLocaleString() || "0"}
                         </td>
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             ${o.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                              o.status === 'Approved' ? 'bg-blue-100 text-blue-800' :
-                                o.status === 'Rejected' ? 'bg-red-100 text-red-800' :
-                                  'bg-yellow-100 text-yellow-800'}`}>
+                              o.status === 'Approved' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' :
+                                o.status === 'Rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                                  'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'}`}>
                             {o.status}
                           </span>
                         </td>

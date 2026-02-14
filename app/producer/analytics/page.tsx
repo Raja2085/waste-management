@@ -171,13 +171,13 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-8 text-black min-h-screen">
+    <div className="space-y-8 text-black dark:text-gray-100 min-h-screen">
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Analytics Dashboard</h1>
-          <p className="text-gray-500 mt-1">Track your waste management performance and revenue.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">Analytics Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Track your waste management performance and revenue.</p>
         </div>
 
         {/* Date Filter Dropdown */}
@@ -186,7 +186,7 @@ export default function AnalyticsPage() {
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value as DateRange)}
-            className="pl-10 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 font-medium shadow-sm appearance-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-50 cursor-pointer"
+            className="pl-10 pr-10 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-200 font-medium shadow-sm appearance-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
           >
             <option value="Today">Today</option>
             <option value="Yesterday">Yesterday</option>
@@ -202,45 +202,45 @@ export default function AnalyticsPage() {
       {/* KPI CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Card 1 */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <DollarSign className="w-16 h-16 text-green-600" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Revenue ({dateRange})</p>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Revenue ({dateRange})</p>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
               ₹{(totalRevenue).toLocaleString()}
             </h3>
           </div>
-          <div className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 w-fit px-2 py-1 rounded-full">
+          <div className="flex items-center gap-1 text-xs font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 w-fit px-2 py-1 rounded-full">
             <TrendingUp size={12} /> {dateRange === "All Time" ? "Lifetime" : "Period Total"}
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Package className="w-16 h-16 text-blue-600" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Sold ({dateRange})</p>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">
-              {totalSold} <span className="text-sm font-normal text-gray-500">kg</span>
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sold ({dateRange})</p>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+              {totalSold} <span className="text-sm font-normal text-gray-500 dark:text-gray-400">kg</span>
             </h3>
           </div>
-          <div className="flex items-center gap-1 text-xs font-semibold text-blue-600 bg-blue-50 w-fit px-2 py-1 rounded-full">
+          <div className="flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 w-fit px-2 py-1 rounded-full">
             <ArrowUpRight size={12} /> {dateRange === "All Time" ? "Lifetime" : "Period Total"}
           </div>
         </div>
 
         {/* Card 3: Active Listings */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <BarChart3 className="w-16 h-16 text-purple-600" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Active Listings</p>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">{activeListings}</h3>
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Active Listings</p>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{activeListings}</h3>
           </div>
           <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
             Currently available
@@ -251,14 +251,14 @@ export default function AnalyticsPage() {
       <div className="flex flex-col gap-8">
 
         {/* TOP SELLING PRODUCTS */}
-        <div className="w-full bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-gray-50 flex justify-between items-center">
-            <h2 className="text-lg font-bold text-gray-900">Top Products ({dateRange})</h2>
+        <div className="w-full bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Top Products ({dateRange})</h2>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold tracking-wider">
+              <thead className="bg-gray-50 dark:bg-gray-900/50 text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold tracking-wider">
                 <tr>
                   <th className="px-6 py-4">Product Name</th>
                   <th className="px-6 py-4">Category</th>
@@ -266,18 +266,18 @@ export default function AnalyticsPage() {
                   <th className="px-6 py-4 text-right">Revenue</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
                 {topProducts.length > 0 ? (
                   topProducts.map((p, i) => (
-                    <tr key={i} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">{p.product_name}</td>
+                    <tr key={i} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
+                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">{p.product_name}</td>
                       <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                           {p.category}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-center text-gray-600">{p.total_sold} kg</td>
-                      <td className="px-6 py-4 text-right font-semibold text-gray-900">₹{p.revenue.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-center text-gray-600 dark:text-gray-300">{p.total_sold} kg</td>
+                      <td className="px-6 py-4 text-right font-semibold text-gray-900 dark:text-gray-100">₹{p.revenue.toLocaleString()}</td>
                     </tr>
                   ))
                 ) : (

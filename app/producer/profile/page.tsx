@@ -186,7 +186,7 @@ export default function ProducerProfilePage() {
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 text-black relative">
+    <div className="space-y-8 animate-in fade-in duration-500 text-black dark:text-gray-100 relative">
 
       {/* SUCCESS TOAST */}
       {successMsg && (
@@ -198,7 +198,7 @@ export default function ProducerProfilePage() {
 
       {/* PAGE TITLE */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Producer Profile</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Producer Profile</h1>
         {!editing && (
           <button
             onClick={() => setEditing(true)}
@@ -210,7 +210,7 @@ export default function ProducerProfilePage() {
       </div>
 
       {/* HEADER INFO CARD */}
-      <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm flex flex-col md:flex-row items-center gap-8">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm flex flex-col md:flex-row items-center gap-8">
         <label className={`relative group ${editing ? "cursor-pointer" : ""}`}>
           <img
             src={profile.profile_image || "/placeholder.png"}
@@ -234,16 +234,16 @@ export default function ProducerProfilePage() {
         </label>
 
         <div className="text-center md:text-left flex-1">
-          <h2 className="text-2xl font-bold text-gray-900">{profile.company_name || "Company Name"}</h2>
-          <p className="text-gray-500 mt-1 flex items-center justify-center md:justify-start gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{profile.company_name || "Company Name"}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1 flex items-center justify-center md:justify-start gap-2">
             <Mail size={16} /> {profile.email}
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 mt-4">
-            <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100">
+            <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium border border-blue-100 dark:border-blue-800">
               Producer Account
             </span>
             {profile.state && (
-              <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-full text-sm border border-gray-200">
+              <span className="px-3 py-1 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm border border-gray-200 dark:border-gray-600">
                 {profile.district}, {profile.state}
               </span>
             )}
@@ -252,15 +252,15 @@ export default function ProducerProfilePage() {
       </div>
 
       {/* TABS NAVIGATION */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <div className="flex gap-8">
           {tabs.map((t) => (
             <button
               key={t}
               onClick={() => setActiveTab(t)}
               className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === t
-                ? "text-blue-600"
-                : "text-gray-500 hover:text-gray-700"
+                ? "text-blue-600 dark:text-blue-400"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
             >
               {t}
@@ -273,16 +273,16 @@ export default function ProducerProfilePage() {
       </div>
 
       {/* CONTENT AREA */}
-      <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm min-h-[400px]">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm min-h-[400px]">
 
         {/* ================= ACCOUNT INFO ================= */}
         {activeTab === "Account Info" && (
           <div className="space-y-6 max-w-2xl">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Company Details</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Company Details</h3>
 
             <div className="grid grid-cols-1 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Company Name</label>
                 <div className="relative">
                   <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
@@ -291,26 +291,26 @@ export default function ProducerProfilePage() {
                     onChange={(e) =>
                       setProfile({ ...profile, company_name: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                     placeholder="Enter company name"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
                     disabled
                     value={profile.email}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-500 dark:text-gray-400 cursor-not-allowed"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
@@ -319,7 +319,7 @@ export default function ProducerProfilePage() {
                     onChange={(e) =>
                       setProfile({ ...profile, phone: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                     placeholder="Enter phone number"
                   />
                 </div>
@@ -349,7 +349,7 @@ export default function ProducerProfilePage() {
         {activeTab === "Address Details" && (
           <div className="space-y-6 max-w-2xl">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Location Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Location Information</h3>
               {editing && (
                 <button
                   onClick={handleUseLocation}
@@ -368,49 +368,49 @@ export default function ProducerProfilePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State</label>
                 <input
                   disabled={!editing}
                   value={profile.state}
                   onChange={(e) =>
                     setProfile({ ...profile, state: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="State"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">District</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">District</label>
                 <input
                   disabled={!editing}
                   value={profile.district}
                   onChange={(e) =>
                     setProfile({ ...profile, district: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="District"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Address</label>
               <textarea
                 disabled={!editing}
                 value={profile.address}
                 onChange={(e) =>
                   setProfile({ ...profile, address: e.target.value })
                 }
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none text-gray-900 dark:text-gray-100"
                 placeholder="Enter full street address"
               />
             </div>
 
             {editing && (
-              <div className="pt-6 border-t mt-8 flex justify-end gap-3">
+              <div className="pt-6 border-t dark:border-gray-700 mt-8 flex justify-end gap-3">
                 <button
                   onClick={() => setEditing(false)}
-                  className="px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition"
+                  className="px-6 py-2.5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                 >
                   Cancel
                 </button>
@@ -428,11 +428,11 @@ export default function ProducerProfilePage() {
         {/* ================= RECENT ACTIVITY ================= */}
         {activeTab === "Recent Activity" && (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-              <Loader2 className="text-gray-400" size={32} />
+            <div className="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+              <Loader2 className="text-gray-400 dark:text-gray-500" size={32} />
             </div>
-            <h3 className="text-lg font-medium text-gray-900">No Recent Activity</h3>
-            <p className="text-gray-500 max-w-sm mt-2">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">No Recent Activity</h3>
+            <p className="text-gray-500 dark:text-gray-400 max-w-sm mt-2">
               Your recent orders, listings, and updates will appear here once you start using the platform.
             </p>
           </div>

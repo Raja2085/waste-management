@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function ConsumerLayout({
   children,
@@ -65,11 +66,11 @@ export default function ConsumerLayout({
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-950 overflow-hidden">
 
       {/* SIDEBAR */}
       <aside
-        className={`bg-white shadow transition-all duration-300 ease-in-out flex flex-col
+        className={`bg-white dark:bg-gray-900 shadow transition-all duration-300 ease-in-out flex flex-col
           ${collapsed ? "w-16" : "w-64"}`}
       >
         {/* HEADER */}
@@ -81,7 +82,7 @@ export default function ConsumerLayout({
           )}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-600 hover:text-blue-600"
+            className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
           >
             <Menu size={22} />
           </button>
@@ -98,8 +99,8 @@ export default function ConsumerLayout({
                 href={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition
                   ${active
-                    ? "bg-blue-100 text-blue-600"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+                    : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                   }
                 `}
               >
@@ -125,11 +126,12 @@ export default function ConsumerLayout({
       {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col transition-all duration-300 overflow-hidden">
         {/* New Top Header for Consumer */}
-        <header className="h-16 bg-white shadow-sm flex items-center justify-end px-6 shrink-0 z-10">
+        <header className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-end px-6 shrink-0 z-10">
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <div className="text-sm text-right hidden md:block">
-              <p className="font-medium text-gray-900">{userName}</p>
-              <p className="text-xs text-gray-500">Consumer</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{userName}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Consumer</p>
             </div>
             <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
               {initials}

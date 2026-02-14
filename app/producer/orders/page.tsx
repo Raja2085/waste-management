@@ -113,29 +113,29 @@ export default function OrdersPage() {
   });
 
   return (
-    <div className="space-y-6 text-black min-h-screen">
+    <div className="space-y-6 text-black dark:text-gray-100 min-h-screen">
 
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Order Management</h1>
-          <p className="text-gray-500 text-sm">Track and manage incoming orders for your waste listings.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Order Management</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Track and manage incoming orders for your waste listings.</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 shadow-sm overflow-hidden">
         {/* Toolbar */}
-        <div className="p-4 border-b flex flex-col md:flex-row gap-4 justify-between items-center bg-gray-50/50">
+        <div className="p-4 border-b dark:border-gray-700 flex flex-col md:flex-row gap-4 justify-between items-center bg-gray-50/50 dark:bg-gray-900/50">
 
           {/* Tabs */}
-          <div className="flex bg-gray-200/50 p-1 rounded-lg">
+          <div className="flex bg-gray-200/50 dark:bg-gray-700/50 p-1 rounded-lg">
             {["All", "Pending", "Completed"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === tab
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                   }`}
               >
                 {tab}
@@ -151,7 +151,7 @@ export default function OrdersPage() {
               placeholder="Search orders..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-4 py-2 border dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function OrdersPage() {
             <div className="p-12 text-center text-gray-500">No orders found.</div>
           ) : (
             <table className="w-full text-sm text-left">
-              <thead className="bg-gray-50 text-gray-500 font-medium border-b uppercase text-xs">
+              <thead className="bg-gray-50 dark:bg-gray-900/50 text-gray-500 dark:text-gray-400 font-medium border-b dark:border-gray-700 uppercase text-xs">
                 <tr>
                   <th className="px-6 py-3">Order Details</th>
                   <th className="px-6 py-3">Buyer</th>
@@ -173,20 +173,20 @@ export default function OrdersPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                 {filteredOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={o.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{o.products.name}</div>
-                      <div className="text-gray-500 text-xs mt-0.5">{o.products.category} • {new Date(o.created_at).toLocaleDateString()}</div>
+                      <div className="font-medium text-gray-900 dark:text-gray-100">{o.products.name}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs mt-0.5">{o.products.category} • {new Date(o.created_at).toLocaleDateString()}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{o.buyer_name}</div>
-                      <div className="text-gray-500 text-xs">{o.buyer_company}</div>
+                      <div className="font-medium text-gray-900 dark:text-gray-100">{o.buyer_name}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs">{o.buyer_company}</div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <div className="font-semibold text-gray-900">₹{o.total_price}</div>
-                      <div className="text-gray-500 text-xs">{o.quantity} kg</div>
+                      <div className="font-semibold text-gray-900 dark:text-gray-100">₹{o.total_price}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs">{o.quantity} kg</div>
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span
@@ -195,8 +195,8 @@ export default function OrdersPage() {
                           : o.status === "Approved"
                             ? "bg-blue-50 text-blue-700 border-blue-200"
                             : o.status === "Completed"
-                              ? "bg-green-50 text-green-700 border-green-200"
-                              : "bg-red-50 text-red-700 border-red-200"
+                              ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800"
+                              : "bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800"
                           }`}
                       >
                         {o.status === "Pending" && <Clock size={12} />}

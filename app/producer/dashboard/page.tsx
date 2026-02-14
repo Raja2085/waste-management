@@ -179,15 +179,15 @@ export default function ProducerDashboard() {
   }
 
   return (
-    <div className="space-y-8 text-black pb-10">
+    <div className="space-y-8 text-black dark:text-gray-100 pb-10">
 
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Producer Dashboard</h1>
-          <p className="text-gray-500">Overview of your waste management activity.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Producer Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400">Overview of your waste management activity.</p>
         </div>
-        <Link href="/producer/products" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium">
+        <Link href="/producer/products" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium dark:hover:bg-blue-500">
           + Add New Listing
         </Link>
       </div>
@@ -221,21 +221,21 @@ export default function ProducerDashboard() {
         <div className="lg:col-span-2 space-y-8">
 
           {/* Sales Chart */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-              <h2 className="font-bold text-lg text-gray-900 flex items-center gap-2">
-                <BarChart3 size={20} className="text-blue-600" />
+              <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                <BarChart3 size={20} className="text-blue-600 dark:text-blue-400" />
                 Sales Overview
               </h2>
               {/* Date Filter Pills */}
-              <div className="flex bg-gray-100 rounded-lg p-1">
+              <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                 {(["Last 7 Days", "This Month", "Year"] as ChartFilter[]).map((filter) => (
                   <button
                     key={filter}
                     onClick={() => setChartFilter(filter)}
                     className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${chartFilter === filter
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-900"
+                      ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                      : "text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                       }`}
                   >
                     {filter}
@@ -281,23 +281,23 @@ export default function ProducerDashboard() {
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-            <h2 className="font-bold text-lg text-gray-900 mb-6">Recent Activity</h2>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+            <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-6">Recent Activity</h2>
 
             {recentOrders.length === 0 ? (
               <div className="text-center py-10 text-gray-500">No recent activity found.</div>
             ) : (
               <div className="space-y-4">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100 hover:border-blue-200 transition-colors">
+                  <div key={order.id} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500 transition-colors">
                     <div className={`p-2 rounded-full ${order.status === 'Completed' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
                       {order.status === 'Completed' ? <ClipboardCheck size={20} /> : <Package size={20} />}
                     </div>
                     <div className="flex-1">
-                      <p className="text-gray-900 font-medium">
+                      <p className="text-gray-900 dark:text-gray-100 font-medium">
                         Order for <span className="font-bold">{order.products?.name}</span>
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {order.quantity} kg • {new Date(order.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -324,9 +324,9 @@ export default function ProducerDashboard() {
             </Link>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-            <h2 className="font-bold text-gray-900 mb-4">Quick Tips</h2>
-            <ul className="space-y-3 text-sm text-gray-600">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+            <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-4">Quick Tips</h2>
+            <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Use clear photos for listings</li>
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Accurately category your waste</li>
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Respond to orders quickly</li>
@@ -336,9 +336,9 @@ export default function ProducerDashboard() {
       </div>
 
       {/* Recent Listings Table */}
-      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-gray-50 flex justify-between items-center">
-          <h2 className="font-bold text-lg text-gray-900">Recent Listings</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex justify-between items-center">
+          <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100">Recent Listings</h2>
           <Link href="/producer/products" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
             View All
           </Link>
@@ -346,7 +346,7 @@ export default function ProducerDashboard() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 text-gray-500 font-medium border-b border-gray-100">
+            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 font-medium border-b border-gray-100 dark:border-gray-700">
               <tr>
                 <th className="px-6 py-4">Product Name</th>
                 <th className="px-6 py-4">Category</th>
@@ -355,18 +355,18 @@ export default function ProducerDashboard() {
                 <th className="px-6 py-4">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
               {recentProducts.length === 0 ? (
-                <tr><td colSpan={5} className="px-6 py-8 text-center text-gray-500">No listings yet.</td></tr>
+                <tr><td colSpan={5} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">No listings yet.</td></tr>
               ) : (
                 recentProducts.map((p) => (
-                  <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{p.name}</td>
-                    <td className="px-6 py-4 text-gray-600">{p.category}</td>
-                    <td className="px-6 py-4 text-gray-600">{p.quantity} kg</td>
-                    <td className="px-6 py-4 text-gray-900 font-medium">₹{p.price}</td>
+                  <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">{p.name}</td>
+                    <td className="px-6 py-4 text-gray-600 dark:text-gray-300">{p.category}</td>
+                    <td className="px-6 py-4 text-gray-600 dark:text-gray-300">{p.quantity} kg</td>
+                    <td className="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium">₹{p.price}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${p.status === 'sold' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${p.status === 'sold' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                         }`}>
                         {p.status === 'sold' ? 'Sold' : 'Active'}
                       </span>
@@ -384,13 +384,13 @@ export default function ProducerDashboard() {
 
 function StatCard({ title, value, icon, bg }: { title: string; value: any; icon: React.ReactNode; bg: string }) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center gap-4">
       <div className={`p-4 rounded-full ${bg} shrink-0`}>
         {icon}
       </div>
       <div>
-        <p className="text-sm text-gray-500 font-medium">{title}</p>
-        <h3 className="text-2xl font-bold text-gray-900 mt-0.5">{value}</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{title}</p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-0.5">{value}</h3>
       </div>
     </div>
   );

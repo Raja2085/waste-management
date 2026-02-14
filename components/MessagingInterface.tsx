@@ -54,12 +54,6 @@ function MessagingInterfaceContent() {
         setConversations(prev => {
             const next = typeof newConvs === 'function' ? newConvs(prev) : newConvs;
             const unique = new Map<string, Conversation>();
-            // Keep existing ones first (or last?) -> Last one wins usually, but here checking by ID
-            // If we want to replace, we should process `next`.
-            // If we merge, we put prev first.
-            // Actually, usually `next` is the source of truth if it's a fetch.
-            // If it's `prev => ...`, next IS the new state.
-            // So we just dedupe `next`.
             next.forEach(c => unique.set(c.user.id, c));
 
             return Array.from(unique.values()).sort((a, b) =>
@@ -366,35 +360,35 @@ function MessagingInterfaceContent() {
     if (loading) return <div className="flex justify-center items-center h-full"><Loader2 className="animate-spin text-blue-600" /></div>;
 
     return (
-        <div className="flex h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-sm border overflow-hidden mt-4">
+        <div className="flex h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4">
             {/* Sidebar */}
-            <div className={`w-full md:w-80 border-r flex flex-col bg-gray-50 ${selectedUserId ? 'hidden md:flex' : 'flex'}`}>
-                <div className="p-4 border-b bg-white">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Messages</h2>
+            <div className={`w-full md:w-80 border-r dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-800 ${selectedUserId ? 'hidden md:flex' : 'flex'}`}>
+                <div className="p-4 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
+                    <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Messages</h2>
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <input
                             type="text"
                             placeholder="Search users..."
-                            className="w-full pl-10 pr-4 py-2 rounded-xl border-gray-200 bg-gray-100 focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none"
+                            className="w-full pl-10 pr-4 py-2 rounded-xl border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                             value={searchQuery}
                             onChange={(e) => handleSearch(e.target.value)}
                         />
                         {/* Search Results Dropdown */}
                         {searchResults.length > 0 && (
-                            <div className="absolute top-full left-0 right-0 bg-white border rounded-xl shadow-lg mt-2 z-10 max-h-60 overflow-y-auto">
+                            <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-lg mt-2 z-10 max-h-60 overflow-y-auto">
                                 {searchResults.map(u => (
                                     <div
                                         key={u.id}
-                                        className="p-3 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
+                                        className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center gap-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                         onClick={() => selectUser(u)}
                                     >
-                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs font-bold">
                                             {getAvatar(u)}
                                         </div>
                                         <div>
-                                            <div className="text-sm font-medium text-gray-900">{getDisplayName(u)}</div>
-                                            <div className="text-xs text-gray-500">{u.email}</div>
+                                            <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{getDisplayName(u)}</div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400">{u.email}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -405,7 +399,7 @@ function MessagingInterfaceContent() {
 
                 <div className="flex-1 overflow-y-auto">
                     {conversations.length === 0 && (
-                        <div className="p-8 text-center text-gray-400 text-sm">
+                        <div className="p-8 text-center text-gray-400 dark:text-gray-500 text-sm">
                             <p>No conversations yet.</p>
                             <p className="mt-2 text-xs">Search for a user or contact a seller to start chatting.</p>
                         </div>
@@ -414,8 +408,8 @@ function MessagingInterfaceContent() {
                         <div
                             key={c.user.id}
                             onClick={() => setSelectedUserId(c.user.id)}
-                            className={`flex items-center gap-3 p-4 hover:bg-white cursor-pointer transition-colors border-l-4 ${selectedUserId === c.user.id
-                                ? "bg-white border-blue-600 shadow-sm"
+                            className={`flex items-center gap-3 p-4 hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition-colors border-l-4 ${selectedUserId === c.user.id
+                                ? "bg-white dark:bg-gray-700 border-blue-600 shadow-sm"
                                 : "border-transparent"
                                 }`}
                         >
@@ -426,12 +420,12 @@ function MessagingInterfaceContent() {
                             </div>
                             <div className="flex-1 min-w-0">
                                 <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="font-semibold text-gray-900 truncate">{getDisplayName(c.user)}</h3>
-                                    <span className="text-xs text-gray-500">
+                                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{getDisplayName(c.user)}</h3>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">
                                         {c.lastMessage ? new Date(c.lastMessage.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}
                                     </span>
                                 </div>
-                                <p className={`text-sm truncate ${c.unreadCount > 0 ? "text-gray-900 font-medium" : "text-gray-500"}`}>
+                                <p className={`text-sm truncate ${c.unreadCount > 0 ? "text-gray-900 dark:text-gray-100 font-medium" : "text-gray-500 dark:text-gray-400"}`}>
                                     {c.lastMessage ? c.lastMessage.content : <i>Start a conversation</i>}
                                 </p>
                             </div>
@@ -447,12 +441,12 @@ function MessagingInterfaceContent() {
 
             {/* Chat Area */}
             {selectedUserId ? (
-                <div className="flex-1 flex flex-col bg-white">
-                    <div className="h-20 border-b flex items-center justify-between px-6 bg-white shrink-0">
+                <div className="flex-1 flex flex-col bg-white dark:bg-gray-900">
+                    <div className="h-20 border-b dark:border-gray-700 flex items-center justify-between px-6 bg-white dark:bg-gray-800 shrink-0">
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => setSelectedUserId(null)}
-                                className="md:hidden p-2 hover:bg-gray-100 rounded-full text-gray-600"
+                                className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300"
                             >
                                 &larr;
                             </button>
@@ -463,7 +457,7 @@ function MessagingInterfaceContent() {
                                 })()}
                             </div>
                             <div>
-                                <h3 className="font-bold text-gray-900">
+                                <h3 className="font-bold text-gray-900 dark:text-gray-100">
                                     {(() => {
                                         const u = conversations.find(c => c.user.id === selectedUserId)?.user;
                                         return u ? getDisplayName(u) : "Loading...";
@@ -471,22 +465,22 @@ function MessagingInterfaceContent() {
                                 </h3>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-500">
-                            <button className="p-2 hover:bg-gray-100 rounded-full">
+                        <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                            <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
                                 <Phone size={20} />
                             </button>
-                            <button className="p-2 hover:bg-gray-100 rounded-full">
+                            <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
                                 <Video size={20} />
                             </button>
-                            <button className="p-2 hover:bg-gray-100 rounded-full">
+                            <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
                                 <MoreVertical size={20} />
                             </button>
                         </div>
                     </div>
 
-                    <div className="flex-1 p-6 overflow-y-auto space-y-6 bg-gray-50/50">
+                    <div className="flex-1 p-6 overflow-y-auto space-y-6 bg-gray-50/50 dark:bg-gray-900">
                         {messages.length === 0 && (
-                            <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                            <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500">
                                 <p>Start the conversation!</p>
                             </div>
                         )}
@@ -497,8 +491,8 @@ function MessagingInterfaceContent() {
                             >
                                 <div
                                     className={`max-w-[70%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender_id === currentUser
-                                        ? "bg-gray-900 text-white rounded-tr-none"
-                                        : "bg-white border text-gray-800 rounded-tl-none"
+                                        ? "bg-gray-900 dark:bg-blue-600 text-white rounded-tr-none"
+                                        : "bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-none"
                                         }`}
                                 >
                                     <p>{msg.content}</p>
@@ -511,15 +505,15 @@ function MessagingInterfaceContent() {
                         <div ref={scrollRef} />
                     </div>
 
-                    <div className="p-4 bg-white border-t">
-                        <div className="flex items-center gap-2 bg-gray-100 p-2 rounded-2xl">
-                            <button className="p-2 text-gray-500 hover:bg-white rounded-full transition-colors shadow-sm">
+                    <div className="p-4 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
+                        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 p-2 rounded-2xl">
+                            <button className="p-2 text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-600 rounded-full transition-colors shadow-sm">
                                 +
                             </button>
                             <input
                                 type="text"
                                 placeholder="Type your message..."
-                                className="flex-1 bg-transparent px-2 py-2 text-sm focus:outline-none text-gray-700"
+                                className="flex-1 bg-transparent px-2 py-2 text-sm focus:outline-none text-gray-700 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                                 value={messageInput}
                                 onChange={(e) => setMessageInput(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
@@ -534,12 +528,12 @@ function MessagingInterfaceContent() {
                     </div>
                 </div>
             ) : (
-                <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-gray-50 text-gray-500">
-                    <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-500">
+                <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                    <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4 text-blue-500 dark:text-blue-400">
                         <Send size={40} />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-800">Select a conversation</h3>
-                    <p className="max-w-xs text-center mt-2 text-gray-400">Choose a contact from the list or search for a user to start messaging.</p>
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Select a conversation</h3>
+                    <p className="max-w-xs text-center mt-2 text-gray-400 dark:text-gray-500">Choose a contact from the list or search for a user to start messaging.</p>
                 </div>
             )}
         </div>

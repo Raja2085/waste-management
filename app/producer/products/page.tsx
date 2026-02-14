@@ -308,7 +308,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="space-y-6 text-black relative min-h-screen">
+    <div className="space-y-6 text-black dark:text-gray-100 relative min-h-screen">
 
       {/* SUCCESS TOAST */}
       {successMsg && (
@@ -321,19 +321,19 @@ export default function ProductsPage() {
       {/* HEADER Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Waste Listings</h1>
-          <p className="text-gray-500">Manage your waste products and listings.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Waste Listings</h1>
+          <p className="text-gray-500 dark:text-gray-400">Manage your waste products and listings.</p>
         </div>
 
         {/* TAB TOGGLES */}
-        <div className="bg-gray-100 p-1 rounded-xl flex gap-1">
+        <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-xl flex gap-1">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); if (tab === "Upload Waste") resetForm(); }}
               className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === tab
-                ? "bg-white text-blue-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-400 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
             >
               {tab}
@@ -359,12 +359,12 @@ export default function ProductsPage() {
 
             if (displayedProducts.length === 0) {
               return (
-                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
-                  <Package className="mx-auto text-gray-300 mb-4" size={64} />
-                  <h3 className="text-xl font-medium text-gray-900">
+                <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">
+                  <Package className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={64} />
+                  <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">
                     {activeTab === "Active Listings" ? "No active listings found" : "No sold history found"}
                   </h3>
-                  <p className="text-gray-500 mt-2 mb-6">
+                  <p className="text-gray-500 dark:text-gray-400 mt-2 mb-6">
                     {activeTab === "Active Listings" ? "Start by uploading your waste materials." : "Your sold items will appear here."}
                   </p>
                   {activeTab === "Active Listings" && (
@@ -380,9 +380,9 @@ export default function ProductsPage() {
             }
 
             return (
-              <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
-                  <thead className="bg-gray-50 border-b text-sm uppercase text-gray-500 font-medium">
+                  <thead className="bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-700 text-sm uppercase text-gray-500 dark:text-gray-400 font-medium">
                     <tr>
                       <th className="px-6 py-4 pointer-events-none">Image</th>
                       <th className="px-6 py-4">Product Name</th>
@@ -395,7 +395,7 @@ export default function ProductsPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {displayedProducts.map((product) => (
-                      <tr key={product.id} className="hover:bg-gray-50 transition-colors group">
+                      <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group border-b dark:border-gray-700 last:border-0">
                         <td className="px-6 py-4 w-20">
                           <img
                             src={product.image_urls?.[0] || "/placeholder.png"}
@@ -403,18 +403,18 @@ export default function ProductsPage() {
                             className="w-12 h-12 rounded-lg object-cover border bg-gray-100"
                           />
                         </td>
-                        <td className="px-6 py-4 font-medium text-gray-900">
+                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
                           {product.name}
                         </td>
                         <td className="px-6 py-4">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
                             {product.category}
                           </span>
                         </td>
-                        <td className="px-6 py-4 font-semibold text-gray-700">
+                        <td className="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">
                           ₹{product.price}
                         </td>
-                        <td className="px-6 py-4 text-gray-600">
+                        <td className="px-6 py-4 text-gray-600 dark:text-gray-400">
                           {product.quantity} kg
                         </td>
                         <td className="px-6 py-4 text-gray-500 text-sm max-w-[200px] truncate">
@@ -425,14 +425,14 @@ export default function ProductsPage() {
                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={() => handleEdit(product)}
-                                className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
                                 title="Edit"
                               >
                                 <Edit size={16} />
                               </button>
                               <button
                                 onClick={() => handleDelete(product.id, product.image_urls)}
-                                className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                                 title="Delete"
                               >
                                 <Trash2 size={16} />
@@ -456,20 +456,20 @@ export default function ProductsPage() {
 
       {/* ================= UPLOAD FORM TAB ================= */}
       {activeTab === "Upload Waste" && (
-        <div className="max-w-4xl mx-auto bg-white border rounded-2xl shadow-sm overflow-hidden animate-in zoom-in-95 duration-300">
-          <div className="p-8 border-b bg-gray-50/50">
-            <h2 className="text-xl font-bold text-gray-900">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="p-8 border-b dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
               {editingId ? "Edit Listing" : "Create New Listing"}
             </h2>
-            <p className="text-gray-500 text-sm mt-1">Fill in the details to list your waste for sale.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Fill in the details to list your waste for sale.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
             {/* LEFT COL: IMAGES */}
             <div className="lg:col-span-1 space-y-4">
-              <label className="block text-sm font-medium text-gray-700">Product Images</label>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors relative">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Images</label>
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors relative">
                 <input
                   type="file"
                   multiple
@@ -477,11 +477,11 @@ export default function ProductsPage() {
                   onChange={handleImageChange}
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
-                <div className="bg-blue-50 text-blue-600 p-3 rounded-full mb-3">
+                <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-3 rounded-full mb-3">
                   <Upload size={24} />
                 </div>
-                <p className="text-sm font-medium text-gray-900">Click to upload</p>
-                <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG (Max 3)</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Click to upload</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">SVG, PNG, JPG (Max 3)</p>
               </div>
 
               {/* Previews */}
@@ -506,23 +506,23 @@ export default function ProductsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Product Name</label>
                   <input
                     required
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. Mixed Plastic Scrap"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -533,7 +533,7 @@ export default function ProductsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Price (₹)</label>
                   <div className="relative">
                     <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                     <input
@@ -543,12 +543,12 @@ export default function ProductsPage() {
                       value={formData.price}
                       onChange={handleChange}
                       placeholder="0.00"
-                      className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Quantity (kg)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Quantity (kg)</label>
                   <div className="relative">
                     <Scale className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                     <input
@@ -558,29 +558,29 @@ export default function ProductsPage() {
                       value={formData.quantity}
                       onChange={handleChange}
                       placeholder="0"
-                      className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   rows={3}
                   placeholder="Describe the condition and quality of the waste..."
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
               {/* LOCATION SECTION */}
-              <div className="bg-gray-50 p-4 rounded-xl space-y-4 border border-gray-200">
+              <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl space-y-4 border border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
-                  <label className="font-medium text-gray-900 flex items-center gap-2">
-                    <MapPin size={18} className="text-blue-600" /> Location Details
+                  <label className="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                    <MapPin size={18} className="text-blue-600 dark:text-blue-400" /> Location Details
                   </label>
                   <button
                     type="button"
@@ -598,14 +598,14 @@ export default function ProductsPage() {
                     value={formData.state}
                     onChange={handleChange}
                     placeholder="State"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                   />
                   <input
                     name="district"
                     value={formData.district}
                     onChange={handleChange}
                     placeholder="District"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                   />
                 </div>
                 <input
@@ -613,7 +613,7 @@ export default function ProductsPage() {
                   value={formData.address}
                   onChange={handleChange}
                   placeholder="Full Street Address"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
@@ -621,7 +621,7 @@ export default function ProductsPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab("Active Listings")}
-                  className="px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition"
+                  className="px-6 py-2.5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                 >
                   Cancel
                 </button>

@@ -70,26 +70,26 @@ export default function ConsumerProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
         {/* 🏷️ Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Marketplace</h1>
-            <p className="text-gray-500 mt-1">Discover and purchase sustainable waste materials.</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">Marketplace</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Discover and purchase sustainable waste materials.</p>
           </div>
         </div>
 
         {/* 🔍 Search & Filter Bar */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
 
             {/* Search */}
             <div className="md:col-span-5 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
                 placeholder="Search by name, category..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -99,7 +99,7 @@ export default function ConsumerProductsPage() {
             {/* Filters */}
             <div className="md:col-span-2">
               <select
-                className="w-full h-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 appearance-none cursor-pointer"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 dark:text-gray-200 appearance-none cursor-pointer"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
@@ -115,7 +115,7 @@ export default function ConsumerProductsPage() {
               <input
                 type="number"
                 placeholder="Min Qty (kg)"
-                className="w-full h-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
                 value={minQty}
                 onChange={(e) => setMinQty(e.target.value)}
               />
@@ -123,7 +123,7 @@ export default function ConsumerProductsPage() {
 
             <div className="md:col-span-2">
               <select
-                className="w-full h-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 cursor-pointer"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 dark:text-gray-200 cursor-pointer"
                 value={distance}
                 onChange={(e) => setDistance(e.target.value)}
               >
@@ -136,7 +136,7 @@ export default function ConsumerProductsPage() {
             <div className="md:col-span-1">
               <button
                 onClick={applyFilters}
-                className="w-full h-full flex items-center justify-center bg-gray-900 text-white rounded-xl hover:bg-black transition-colors shadow-lg shadow-gray-200"
+                className="w-full h-full flex items-center justify-center bg-gray-900 dark:bg-blue-600 text-white rounded-xl hover:bg-black dark:hover:bg-blue-700 transition-colors shadow-lg shadow-gray-200 dark:shadow-none"
               >
                 <Filter className="w-5 h-5" />
               </button>
@@ -147,38 +147,38 @@ export default function ConsumerProductsPage() {
         {/* 📊 Listing Grid */}
         <div className="space-y-4">
           <div className="flex items-center justify-between text-sm text-gray-500">
-            <p>Showing <span className="font-semibold text-gray-900">{filtered.length}</span> results</p>
+            <p>Showing <span className="font-semibold text-gray-900 dark:text-gray-100">{filtered.length}</span> results</p>
           </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
-              <p className="text-gray-400 text-lg">No products found matching your criteria.</p>
+            <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700">
+              <p className="text-gray-400 dark:text-gray-500 text-lg">No products found matching your criteria.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map((p) => (
                 <div
                   key={p.id}
-                  className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
+                  className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
                 >
                   {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
                     <img
                       src={p.image_urls?.[0] || "/placeholder.png"}
                       alt={p.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-gray-800 shadow-sm">
+                    <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-gray-800 dark:text-gray-200 shadow-sm">
                       {p.category}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-1">
-                    <h2 className="text-lg font-bold text-gray-900 line-clamp-1 mb-1">{p.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 line-clamp-1 mb-1">{p.name}</h2>
 
-                    <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
-                      <MapPin className="w-4 h-4 text-gray-400" />
+                    <div className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                      <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                       <span className="truncate">
                         {[p.district, p.state].filter(Boolean).join(", ") || "Unknown Location"}
                       </span>
@@ -186,13 +186,13 @@ export default function ConsumerProductsPage() {
 
                     <div className="mt-auto space-y-3">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-bold text-gray-900">{p.quantity}</span>
-                        <span className="text-sm text-gray-500 font-medium">kg available</span>
+                        <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">{p.quantity}</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">kg available</span>
                       </div>
 
                       <Link
                         href={`/consumer/products/${p.id}`}
-                        className="block w-full text-center bg-gray-50 text-gray-900 font-semibold py-2.5 rounded-lg border border-gray-200 hover:bg-gray-900 hover:text-white hover:border-transparent transition-all duration-200"
+                        className="block w-full text-center bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-semibold py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-900 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white hover:border-transparent transition-all duration-200"
                       >
                         View Details
                       </Link>
