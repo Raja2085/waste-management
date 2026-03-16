@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -20,7 +20,13 @@ export default function ProducerLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth >= 768) {
+      setCollapsed(false);
+    }
+  }, []);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -34,7 +40,6 @@ export default function ProducerLayout({
   const [initials, setInitials] = useState("P");
 
   {/* UseEffect to fetch profile */ }
-  const { useEffect } = require("react");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -61,10 +66,18 @@ export default function ProducerLayout({
   return (
     <div className="h-screen bg-gray-100 dark:bg-gray-950 flex overflow-hidden">
 
+      {/* Mobile Overlay */}
+      {!collapsed && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
+          onClick={() => setCollapsed(true)} 
+        />
+      )}
+
       {/* ================= SIDEBAR ================= */}
       <aside
-        className={`relative h-full bg-white dark:bg-gray-900 shadow-md transition-all duration-300 flex flex-col
-        ${collapsed ? "w-16" : "w-64"}`}
+        className={`fixed inset-y-0 left-0 z-50 md:relative h-full bg-white dark:bg-gray-900 shadow-md transition-all duration-300 flex flex-col md:translate-x-0
+        ${collapsed ? "-translate-x-full md:w-16" : "translate-x-0 w-64"}`}
       >
         {/* Logo / Identity */}
         <div className="h-16 flex items-center justify-center text-lg font-bold text-foreground shrink-0 border-b">

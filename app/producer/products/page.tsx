@@ -326,12 +326,12 @@ export default function ProductsPage() {
         </div>
 
         {/* TAB TOGGLES */}
-        <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-xl flex gap-1">
+        <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-xl flex gap-1 overflow-x-auto w-full md:w-auto">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); if (tab === "Upload Waste") resetForm(); }}
-              className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === tab
+              className={`whitespace-nowrap shrink-0 px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === tab
                 ? "bg-white dark:bg-gray-600 text-foreground dark:text-foreground/60 shadow-sm"
                 : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
@@ -380,8 +380,8 @@ export default function ProductsPage() {
             }
 
             return (
-              <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
-                <table className="w-full text-left border-collapse">
+              <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl overflow-x-auto shadow-sm">
+                <table className="w-full text-left border-collapse min-w-[800px]">
                   <thead className="bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-700 text-sm uppercase text-gray-500 dark:text-gray-400 font-medium">
                     <tr>
                       <th className="px-6 py-4 pointer-events-none">Image</th>
@@ -592,7 +592,7 @@ export default function ProductsPage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     name="state"
                     value={formData.state}

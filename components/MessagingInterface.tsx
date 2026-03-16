@@ -364,7 +364,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
     if (loading) return <div className="flex justify-center items-center h-full"><Loader2 className="animate-spin text-foreground" /></div>;
 
     return (
-        <div className="flex h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4">
+        <div className="flex h-[calc(100vh-12rem)] min-h-[500px] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4">
             {/* Sidebar */}
             <div className={`w-full md:w-80 border-r dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-800 ${selectedUserId ? 'hidden md:flex' : 'flex'}`}>
                 <div className="p-4 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -482,7 +482,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                         </div>
                     </div>
 
-                    <div className="flex-1 p-6 overflow-y-auto space-y-6 bg-gray-50/50 dark:bg-gray-900">
+                    <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-6 bg-gray-50/50 dark:bg-gray-900">
                         {messages.length === 0 && (
                             <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500">
                                 <p>Start the conversation!</p>

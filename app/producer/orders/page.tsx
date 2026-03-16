@@ -163,7 +163,7 @@ export default function OrdersPage() {
           ) : filteredOrders.length === 0 ? (
             <div className="p-12 text-center text-gray-500">No orders found.</div>
           ) : (
-            <table className="w-full text-sm text-left">
+            <table className="w-full text-sm text-left min-w-[700px]">
               <thead className="bg-gray-50 dark:bg-gray-900/50 text-gray-500 dark:text-gray-400 font-medium border-b dark:border-gray-700 uppercase text-xs">
                 <tr>
                   <th className="px-6 py-3">Order Details</th>

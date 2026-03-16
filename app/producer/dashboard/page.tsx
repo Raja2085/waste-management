@@ -192,7 +192,7 @@ export default function ProducerDashboard() {
     <div className="space-y-8 text-black dark:text-gray-100 pb-10">
 
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Producer Dashboard</h1>
           <p className="text-gray-500 dark:text-gray-400">Overview of your waste management activity.</p>

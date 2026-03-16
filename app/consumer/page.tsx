@@ -101,13 +101,13 @@ export default function ConsumerDashboard() {
         </div>
 
         {/* Impact Card */}
-        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-xl shadow-md text-white">
+        <div className="bg-gradient-to-br border border-gray-100 dark:border-gray-700 from-foreground to-foreground/80 p-6 rounded-xl shadow-md text-background">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-white/80 font-medium text-sm">Environmental Impact</h3>
-            <TrendingUp size={20} className="text-white/80" />
+            <h3 className="text-background/80 font-medium text-sm">Environmental Impact</h3>
+            <TrendingUp size={20} className="text-background/80" />
           </div>
           <p className="text-2xl font-bold mt-2">{totalQuantity} kg</p>
-          <p className="text-xs text-indigo-100 mt-1 opacity-80">Waste diverted from landfills</p>
+          <p className="text-xs text-background/60 mt-1 opacity-80">Waste diverted from landfills</p>
         </div>
       </div>
 

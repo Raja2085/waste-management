@@ -11,7 +11,7 @@ import {
   Package, // ✅ NEW ICON
   MessageSquare, // New Icon
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -22,7 +22,13 @@ export default function ConsumerLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth >= 768) {
+      setCollapsed(false);
+    }
+  }, []);
 
   const logout = async () => {
     await supabase.auth.signOut();
@@ -30,7 +36,6 @@ export default function ConsumerLayout({
   };
 
   /* ✅ FETCH USER NAME */
-  const { useEffect } = require("react");
   const [userName, setUserName] = useState("Consumer Panel");
   const [initials, setInitials] = useState("C");
 
@@ -66,26 +71,23 @@ export default function ConsumerLayout({
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-950 overflow-hidden">
+    <div className="h-screen bg-gray-100 dark:bg-gray-950 flex overflow-hidden">
+
+      {/* Mobile Overlay */}
+      {!collapsed && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
+          onClick={() => setCollapsed(true)} 
+        />
+      )}
 
       {/* SIDEBAR */}
       <aside
-        className={`bg-white dark:bg-gray-900 shadow transition-all duration-300 ease-in-out flex flex-col
-          ${collapsed ? "w-16" : "w-64"}`}
+        className={`fixed inset-y-0 left-0 z-50 md:relative h-full bg-white dark:bg-gray-900 shadow transition-all duration-300 ease-in-out flex flex-col md:translate-x-0
+          ${collapsed ? "-translate-x-full md:w-16" : "translate-x-0 w-64"}`}
       >
-        {/* HEADER */}
-        <div className="h-16 flex items-center justify-between px-4 border-b shrink-0">
-          {!collapsed && (
-            <span className="font-bold text-foreground text-lg truncate" title={userName}>
-              {userName}
-            </span>
-          )}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-600 dark:text-gray-300 hover:text-foreground"
-          >
-            <Menu size={22} />
-          </button>
+        <div className="h-16 flex items-center justify-center text-lg font-bold text-foreground shrink-0 border-b">
+          {collapsed ? initials : <span className="truncate px-4">{userName}</span>}
         </div>
 
         {/* NAVIGATION */}
@@ -124,9 +126,20 @@ export default function ConsumerLayout({
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col transition-all duration-300 overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden">
         {/* New Top Header for Consumer */}
-        <header className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-end px-6 shrink-0 z-10">
+        <header className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-between px-4 shrink-0 z-10">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-black dark:text-white"
+            >
+              <Menu size={22} />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-white hidden md:block">
+              Consumer Dashboard
+            </h1>
+          </div>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <div className="text-sm text-right hidden md:block">

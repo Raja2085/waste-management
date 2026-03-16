@@ -223,7 +223,7 @@ export default function ConsumerProfilePage() {
       )}
 
       {/* HEADER Actions */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Your Profile</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your account settings and view order history.</p>
@@ -231,7 +231,7 @@ export default function ConsumerProfilePage() {
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition shadow-sm font-medium"
+            className="w-full sm:w-auto bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition shadow-sm font-medium"
           >
             Edit Profile
           </button>
@@ -281,8 +281,8 @@ export default function ConsumerProfilePage() {
       </div>
 
       {/* TABS NAVIGATION */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-8">
+      <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-auto w-full">
+        <div className="flex gap-8 min-w-max">
           {tabs.map((t) => (
             <button
               key={t}
@@ -380,7 +380,7 @@ export default function ConsumerProfilePage() {
         {/* ================= ADDRESS DETAILS ================= */}
         {activeTab === "Address Details" && (
           <div className="space-y-6 max-w-3xl animate-in fade-in delay-75">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Delivery Location</h3>
               {editing && (
                 <button

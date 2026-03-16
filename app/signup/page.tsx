@@ -76,14 +76,14 @@ export default function SignupPage() {
         </p>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               placeholder="First Name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
-              className="w-1/2 border rounded-lg px-4 py-2"
+              className="w-full sm:w-1/2 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
             />
             <input
               type="text"
@@ -91,7 +91,7 @@ export default function SignupPage() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
-              className="w-1/2 border rounded-lg px-4 py-2"
+              className="w-full sm:w-1/2 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function SignupPage() {
             value={role}
             onChange={(e) => setRole(e.target.value)}
             required
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
           >
             <option value="">Select Role</option>
             <option value="producer">Producer</option>
@@ -112,7 +112,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
           />
 
           <input
@@ -121,7 +121,7 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
           />
 
           <input
@@ -130,7 +130,7 @@ export default function SignupPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50 focus:outline-none"
           />
 
           {errorMsg && (
@@ -140,7 +140,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-foreground text-background py-2 rounded-lg font-semibold"
+            className="w-full bg-foreground text-background py-2 rounded-lg font-semibold hover:bg-foreground/90 transition"
           >
             {loading ? "Creating..." : "Sign Up"}
           </button>

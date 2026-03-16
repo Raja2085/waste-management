@@ -115,7 +115,7 @@ export default function ConsumerOrdersPage() {
       </div>
 
       {/* TABS */}
-      <div className="flex gap-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-fit">
+      <div className="flex gap-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-full sm:w-fit overflow-x-auto">
         <button
           onClick={() => setTab("all")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === "all"
@@ -210,7 +210,7 @@ export default function ConsumerOrdersPage() {
               </div>
 
               {/* ACTION BUTTON (Mobile: Full width, Desktop: Right aligned) */}
-              <div className="md:self-center">
+              <div className="mt-4 md:mt-0 md:self-center w-full md:w-auto">
                 <Link
                   href={`/consumer/orders/${o.id}`}
                   className="w-full md:w-auto px-5 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-colors flex items-center justify-center gap-2"

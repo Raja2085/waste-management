@@ -89,7 +89,7 @@ export default function SigninPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
+            className="w-full max-w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           />
 
           {/* Password */}
@@ -99,7 +99,7 @@ export default function SigninPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
+            className="w-full max-w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           />
 
           {/* Role Dropdown */}
@@ -107,7 +107,7 @@ export default function SigninPage() {
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
+            className="w-full max-w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           >
             <option value="">Select Role</option>
             <option value="producer">Producer</option>
@@ -116,7 +116,7 @@ export default function SigninPage() {
 
           {/* ❌ Error Message */}
           {errorMsg && (
-            <p className="w-[350px] text-left text-sm text-red-600">
+            <p className="w-full max-w-[350px] text-left text-sm text-red-600">
               {errorMsg}
             </p>
           )}
@@ -125,7 +125,7 @@ export default function SigninPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-[150px] bg-foreground text-background py-2 rounded-lg font-semibold hover:bg-foreground/90 hover:text-background transition"
+            className="w-full max-w-[150px] bg-foreground text-background py-2 rounded-lg font-semibold hover:bg-foreground/90 hover:text-background transition"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>

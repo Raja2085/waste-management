@@ -197,12 +197,12 @@ export default function ProducerProfilePage() {
       )}
 
       {/* PAGE TITLE */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Producer Profile</h1>
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition"
+            className="w-full sm:w-auto bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition"
           >
             Edit Profile
           </button>
@@ -252,8 +252,8 @@ export default function ProducerProfilePage() {
       </div>
 
       {/* TABS NAVIGATION */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-8">
+      <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-auto w-full">
+        <div className="flex gap-8 min-w-max">
           {tabs.map((t) => (
             <button
               key={t}
