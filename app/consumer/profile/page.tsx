@@ -112,7 +112,7 @@ export default function ConsumerProfilePage() {
       .select(`
         id, 
         status, 
-        total_amount, 
+        total_price, 
         created_at,
         products (name)
       `)
@@ -505,7 +505,7 @@ export default function ConsumerProfilePage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">
-                          ₹{o.total_amount?.toLocaleString() || "0"}
+                          ₹{o.total_price?.toLocaleString() || "0"}
                         </td>
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 

@@ -8,7 +8,7 @@ import { Package, ShoppingBag, User, ArrowRight, TrendingUp, Info } from "lucide
 /* ---------- Types ---------- */
 type Order = {
   id: string;
-  total_amount: number;
+  total_price: number;
 };
 
 export default function ConsumerDashboard() {

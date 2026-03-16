@@ -39,6 +39,11 @@ export default function ProducerDashboard() {
   const [chartFilter, setChartFilter] = useState<ChartFilter>("Last 7 Days");
   const [chartData, setChartData] = useState<{ label: string; revenue: number }[]>([]);
 
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     fetchInitialData();
   }, []);
@@ -130,13 +135,18 @@ export default function ProducerDashboard() {
         labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       }
 
-      const { data: orders } = await supabase
+      // Ensure date is purely in UTC format without complex local offsets causing 400 Bad Request
+      const startIso = new Date(startDate.getTime() - (startDate.getTimezoneOffset() * 60000)).toISOString();
+
+      const { data: orders, error } = await supabase
         .from("orders")
-        .select("created_at, total_amount")
+        .select("created_at, total_price")
         .eq("producer_id", user.id)
-        .gte("created_at", startDate.toISOString())
+        .gte("created_at", startIso)
         .neq("status", "Rejected")
         .order("created_at", { ascending: true });
+
+      if (error) console.error("Supabase Error getting orders:", error);
 
       // Aggregation
       const revenueMap: Record<string, number> = {};
@@ -155,7 +165,7 @@ export default function ProducerDashboard() {
           key = months[d.getMonth()];
         }
 
-        revenueMap[key] = (revenueMap[key] || 0) + (o.total_amount || 0);
+        revenueMap[key] = (revenueMap[key] || 0) + (o.total_price || 0);
       });
 
       // Map to Labels
@@ -244,10 +254,11 @@ export default function ProducerDashboard() {
               </div>
             </div>
 
-            <div className="h-64 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
-                  <defs>
+            <div className="h-[300px] w-full min-h-[300px]">
+              {isMounted && (
+                <ResponsiveContainer width="100%" height={300} minWidth={0}>
+                  <AreaChart data={chartData}>
+                    <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1} />
                       <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
@@ -259,6 +270,8 @@ export default function ProducerDashboard() {
                     tickLine={false}
                     tick={{ fontSize: 12, fill: '#6b7280' }}
                     dy={10}
+                    interval="preserveStartEnd"
+                    padding={{ left: 20, right: 20 }}
                   />
                   <YAxis
                     hide={true}
@@ -277,6 +290,7 @@ export default function ProducerDashboard() {
                   />
                 </AreaChart>
               </ResponsiveContainer>
+              )}
             </div>
           </div>
 
