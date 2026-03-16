@@ -186,7 +186,7 @@ export default function AnalyticsPage() {
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value as DateRange)}
-            className="pl-10 pr-10 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-200 font-medium shadow-sm appearance-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+            className="pl-10 pr-10 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-200 font-medium shadow-sm appearance-none focus:ring-2 focus:ring-foreground/50 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
           >
             <option value="Today">Today</option>
             <option value="Yesterday">Yesterday</option>
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
         {/* Card 2 */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Package className="w-16 h-16 text-blue-600" />
+            <Package className="w-16 h-16 text-foreground" />
           </div>
           <div>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sold ({dateRange})</p>
@@ -228,7 +228,7 @@ export default function AnalyticsPage() {
               {totalSold} <span className="text-sm font-normal text-gray-500 dark:text-gray-400">kg</span>
             </h3>
           </div>
-          <div className="flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 w-fit px-2 py-1 rounded-full">
+          <div className="flex items-center gap-1 text-xs font-semibold text-foreground dark:text-foreground/60 bg-foreground/5 dark:bg-foreground/15 w-fit px-2 py-1 rounded-full">
             <ArrowUpRight size={12} /> {dateRange === "All Time" ? "Lifetime" : "Period Total"}
           </div>
         </div>

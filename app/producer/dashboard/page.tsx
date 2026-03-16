@@ -183,7 +183,7 @@ export default function ProducerDashboard() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <Loader2 className="animate-spin text-blue-600" size={40} />
+        <Loader2 className="animate-spin text-foreground" size={40} />
       </div>
     );
   }
@@ -197,7 +197,7 @@ export default function ProducerDashboard() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Producer Dashboard</h1>
           <p className="text-gray-500 dark:text-gray-400">Overview of your waste management activity.</p>
         </div>
-        <Link href="/producer/products" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium dark:hover:bg-blue-500">
+        <Link href="/producer/products" className="bg-foreground text-background px-4 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition font-medium dark:hover:bg-foreground/80">
           + Add New Listing
         </Link>
       </div>
@@ -213,8 +213,8 @@ export default function ProducerDashboard() {
         <StatCard
           title="Active Listings"
           value={stats.activeListings}
-          icon={<CheckCircle className="text-blue-600" />}
-          bg="bg-blue-50"
+          icon={<CheckCircle className="text-foreground" />}
+          bg="bg-foreground/5"
         />
         <StatCard
           title="Completed Orders"
@@ -234,7 +234,7 @@ export default function ProducerDashboard() {
           <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                <BarChart3 size={20} className="text-blue-600 dark:text-blue-400" />
+                <BarChart3 size={20} className="text-foreground dark:text-foreground/60" />
                 Sales Overview
               </h2>
               {/* Date Filter Pills */}
@@ -260,8 +260,8 @@ export default function ProducerDashboard() {
                   <AreaChart data={chartData}>
                     <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1} />
-                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--foreground)" stopOpacity={0.1} />
+                      <stop offset="95%" stopColor="var(--foreground)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis
@@ -283,7 +283,7 @@ export default function ProducerDashboard() {
                   <Area
                     type="monotone"
                     dataKey="revenue"
-                    stroke="#2563eb"
+                    stroke="var(--foreground)"
                     strokeWidth={2}
                     fillOpacity={1}
                     fill="url(#colorRevenue)"
@@ -303,8 +303,8 @@ export default function ProducerDashboard() {
             ) : (
               <div className="space-y-4">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500 transition-colors">
-                    <div className={`p-2 rounded-full ${order.status === 'Completed' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+                  <div key={order.id} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-700 hover:border-foreground/20 dark:hover:border-foreground/50 transition-colors">
+                    <div className={`p-2 rounded-full ${order.status === 'Completed' ? 'bg-green-100 text-green-600' : 'bg-foreground/10 text-foreground'}`}>
                       {order.status === 'Completed' ? <ClipboardCheck size={20} /> : <Package size={20} />}
                     </div>
                     <div className="flex-1">
@@ -316,7 +316,7 @@ export default function ProducerDashboard() {
                       </p>
                     </div>
                     <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${order.status === 'Completed' ? 'bg-green-100 text-green-700' :
-                      order.status === 'Approved' ? 'bg-blue-100 text-blue-700' :
+                      order.status === 'Approved' ? 'bg-foreground/10 text-foreground' :
                         'bg-yellow-100 text-yellow-700'
                       }`}>
                       {order.status}
@@ -330,9 +330,9 @@ export default function ProducerDashboard() {
 
         {/* Right Column: Tips / Actions */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 rounded-2xl shadow-lg">
+          <div className="bg-foreground text-background p-6 rounded-2xl shadow-lg">
             <h3 className="font-bold text-lg mb-2">Grow your Impact</h3>
-            <p className="text-blue-100 text-sm mb-4">You have recycled {stats.totalSold} kg of waste so far! Keep listing to increase your contribution.</p>
+            <p className="text-background/90 text-sm mb-4">You have recycled {stats.totalSold} kg of waste so far! Keep listing to increase your contribution.</p>
             <Link href="/producer/analytics" className="text-sm font-semibold bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg inline-block transition">
               View Full Analytics
             </Link>
@@ -353,7 +353,7 @@ export default function ProducerDashboard() {
       <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
         <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex justify-between items-center">
           <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100">Recent Listings</h2>
-          <Link href="/producer/products" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          <Link href="/producer/products" className="text-sm text-foreground hover:text-foreground font-medium">
             View All
           </Link>
         </div>
@@ -380,7 +380,7 @@ export default function ProducerDashboard() {
                     <td className="px-6 py-4 text-gray-600 dark:text-gray-300">{p.quantity} kg</td>
                     <td className="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium">₹{p.price}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${p.status === 'sold' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${p.status === 'sold' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' : 'bg-foreground/10 text-foreground dark:bg-blue-900 dark:text-foreground/50'
                         }`}>
                         {p.status === 'sold' ? 'Sold' : 'Active'}
                       </span>

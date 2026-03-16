@@ -140,14 +140,14 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-foreground text-background py-2 rounded-lg font-semibold"
           >
             {loading ? "Creating..." : "Sign Up"}
           </button>
 
           <p className="text-center text-sm">
             Already have an account?{" "}
-            <a href="/signin" className="underline text-blue-600">
+            <a href="/signin" className="underline text-foreground">
               Sign In
             </a>
           </p>

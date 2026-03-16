@@ -89,7 +89,7 @@ export default function ConsumerProductsPage() {
             <div className="md:col-span-5 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
                 placeholder="Search by name, category..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -99,7 +99,7 @@ export default function ConsumerProductsPage() {
             {/* Filters */}
             <div className="md:col-span-2">
               <select
-                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 dark:text-gray-200 appearance-none cursor-pointer"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 outline-none text-gray-600 dark:text-gray-200 appearance-none cursor-pointer"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
@@ -115,7 +115,7 @@ export default function ConsumerProductsPage() {
               <input
                 type="number"
                 placeholder="Min Qty (kg)"
-                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100"
                 value={minQty}
                 onChange={(e) => setMinQty(e.target.value)}
               />
@@ -123,7 +123,7 @@ export default function ConsumerProductsPage() {
 
             <div className="md:col-span-2">
               <select
-                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-600 dark:text-gray-200 cursor-pointer"
+                className="w-full h-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 outline-none text-gray-600 dark:text-gray-200 cursor-pointer"
                 value={distance}
                 onChange={(e) => setDistance(e.target.value)}
               >
@@ -136,7 +136,7 @@ export default function ConsumerProductsPage() {
             <div className="md:col-span-1">
               <button
                 onClick={applyFilters}
-                className="w-full h-full flex items-center justify-center bg-gray-900 dark:bg-blue-600 text-white rounded-xl hover:bg-black dark:hover:bg-blue-700 transition-colors shadow-lg shadow-gray-200 dark:shadow-none"
+                className="w-full h-full flex items-center justify-center bg-gray-900 dark:bg-foreground text-background rounded-xl hover:bg-black dark:hover:bg-foreground/90 hover:text-background transition-colors shadow-lg shadow-gray-200 dark:shadow-none"
               >
                 <Filter className="w-5 h-5" />
               </button>
@@ -192,7 +192,7 @@ export default function ConsumerProductsPage() {
 
                       <Link
                         href={`/consumer/products/${p.id}`}
-                        className="block w-full text-center bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-semibold py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-900 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white hover:border-transparent transition-all duration-200"
+                        className="block w-full text-center bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-semibold py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-900 dark:hover:bg-foreground hover:text-white dark:hover:text-white hover:border-transparent transition-all duration-200"
                       >
                         View Details
                       </Link>

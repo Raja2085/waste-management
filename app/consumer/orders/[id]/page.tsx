@@ -89,7 +89,7 @@ export default function OrderDetailsPage() {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center gap-4">
                 <h1 className="text-2xl font-bold text-gray-900">Order not found</h1>
-                <button onClick={() => router.back()} className="text-blue-600 hover:underline">
+                <button onClick={() => router.back()} className="text-foreground hover:underline">
                     Go Back
                 </button>
             </div>
@@ -210,7 +210,7 @@ export default function OrderDetailsPage() {
                         {/* Pickup Location */}
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                <MapPin size={18} className="text-blue-600" /> Pickup Location
+                                <MapPin size={18} className="text-foreground" /> Pickup Location
                             </h3>
                             <p className="text-gray-600 text-sm leading-relaxed">
                                 {(order.products.address || order.products.district) ? (

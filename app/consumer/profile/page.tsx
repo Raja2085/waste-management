@@ -207,7 +207,7 @@ export default function ConsumerProfilePage() {
 
   if (loading) return (
     <div className="flex justify-center items-center h-64">
-      <Loader2 className="animate-spin text-blue-600" size={32} />
+      <Loader2 className="animate-spin text-foreground" size={32} />
     </div>
   );
 
@@ -231,7 +231,7 @@ export default function ConsumerProfilePage() {
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm font-medium"
+            className="bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition shadow-sm font-medium"
           >
             Edit Profile
           </button>
@@ -288,13 +288,13 @@ export default function ConsumerProfilePage() {
               key={t}
               onClick={() => setActiveTab(t)}
               className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === t
-                ? "text-blue-600 dark:text-blue-400"
+                ? "text-foreground dark:text-foreground/60"
                 : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
             >
               {t}
               {activeTab === t && (
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full" />
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-foreground rounded-t-full" />
               )}
             </button>
           ))}
@@ -321,7 +321,7 @@ export default function ConsumerProfilePage() {
                     onChange={(e) =>
                       setProfile({ ...profile, company_name: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                     placeholder="Enter your name or company"
                   />
                 </div>
@@ -350,7 +350,7 @@ export default function ConsumerProfilePage() {
                       onChange={(e) =>
                         setProfile({ ...profile, phone: e.target.value })
                       }
-                      className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -368,7 +368,7 @@ export default function ConsumerProfilePage() {
                 </button>
                 <button
                   onClick={saveProfile}
-                  className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
+                  className="px-6 py-2.5 bg-foreground text-background font-medium rounded-lg hover:bg-foreground/90 hover:text-background transition shadow-lg shadow-foreground/20"
                 >
                   Save Changes
                 </button>
@@ -386,7 +386,7 @@ export default function ConsumerProfilePage() {
                 <button
                   onClick={handleUseLocation}
                   disabled={locationLoading}
-                  className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium px-4 py-2 bg-blue-50 rounded-lg transition-colors border border-blue-100"
+                  className="flex items-center gap-2 text-sm text-foreground hover:text-foreground font-medium px-4 py-2 bg-foreground/5 rounded-lg transition-colors border border-foreground/10"
                 >
                   {locationLoading ? (
                     <Loader2 size={16} className="animate-spin" />
@@ -407,7 +407,7 @@ export default function ConsumerProfilePage() {
                   onChange={(e) =>
                     setProfile({ ...profile, state: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="State"
                 />
               </div>
@@ -419,7 +419,7 @@ export default function ConsumerProfilePage() {
                   onChange={(e) =>
                     setProfile({ ...profile, district: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:outline-none transition-all disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   placeholder="District"
                 />
               </div>
@@ -433,7 +433,7 @@ export default function ConsumerProfilePage() {
                 onChange={(e) =>
                   setProfile({ ...profile, address: e.target.value })
                 }
-                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none text-gray-900 dark:text-gray-100"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-foreground/50 focus:outline-none transition-all disabled:opacity-60 min-h-[120px] resize-none text-gray-900 dark:text-gray-100"
                 placeholder="Enter full street address for deliveries"
               />
             </div>
@@ -448,7 +448,7 @@ export default function ConsumerProfilePage() {
                 </button>
                 <button
                   onClick={saveProfile}
-                  className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
+                  className="px-6 py-2.5 bg-foreground text-background font-medium rounded-lg hover:bg-foreground/90 hover:text-background transition shadow-lg shadow-foreground/20"
                 >
                   Save Address
                 </button>
@@ -473,7 +473,7 @@ export default function ConsumerProfilePage() {
                 <p className="text-gray-500 dark:text-gray-400 max-w-sm mt-2">
                   Once you purchase waste materials, your order history will appear here.
                 </p>
-                <a href="/consumer/products" className="mt-6 text-blue-600 font-medium hover:underline">
+                <a href="/consumer/products" className="mt-6 text-foreground font-medium hover:underline">
                   Browse Marketplace &rarr;
                 </a>
               </div>
@@ -510,7 +510,7 @@ export default function ConsumerProfilePage() {
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             ${o.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                              o.status === 'Approved' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' :
+                              o.status === 'Approved' ? 'bg-foreground/10 dark:bg-foreground/15 text-foreground dark:text-foreground/50' :
                                 o.status === 'Rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
                                   'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'}`}>
                             {o.status}

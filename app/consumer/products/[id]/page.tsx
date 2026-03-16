@@ -100,7 +100,7 @@ export default function ProductDetailsPage() {
         <p className="text-xl text-gray-500">Product not found</p>
         <button
           onClick={() => router.back()}
-          className="text-blue-600 hover:underline"
+          className="text-foreground hover:underline"
         >
           Go Back
         </button>
@@ -158,7 +158,7 @@ export default function ProductDetailsPage() {
 
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 uppercase tracking-wide">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/5 text-foreground uppercase tracking-wide">
                     {product.category}
                   </span>
                 </div>

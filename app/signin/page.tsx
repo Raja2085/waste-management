@@ -89,7 +89,7 @@ export default function SigninPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           />
 
           {/* Password */}
@@ -99,7 +99,7 @@ export default function SigninPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           />
 
           {/* Role Dropdown */}
@@ -107,7 +107,7 @@ export default function SigninPage() {
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
             required
-            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+            className="w-[350px] border rounded-lg px-4 py-2 focus:ring-2 focus:ring-foreground/50"
           >
             <option value="">Select Role</option>
             <option value="producer">Producer</option>
@@ -125,7 +125,7 @@ export default function SigninPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-[150px] bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="w-[150px] bg-foreground text-background py-2 rounded-lg font-semibold hover:bg-foreground/90 hover:text-background transition"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>
@@ -134,7 +134,7 @@ export default function SigninPage() {
         {/* Footer */}
         <p className="text-center text-sm mt-6">
           Don’t have an account?{" "}
-          <a href="/signup" className="underline text-blue-600">
+          <a href="/signup" className="underline text-foreground">
             Sign Up
           </a>
         </p>

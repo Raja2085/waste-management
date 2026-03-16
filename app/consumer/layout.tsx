@@ -76,13 +76,13 @@ export default function ConsumerLayout({
         {/* HEADER */}
         <div className="h-16 flex items-center justify-between px-4 border-b shrink-0">
           {!collapsed && (
-            <span className="font-bold text-blue-600 text-lg truncate" title={userName}>
+            <span className="font-bold text-foreground text-lg truncate" title={userName}>
               {userName}
             </span>
           )}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
+            className="text-gray-600 dark:text-gray-300 hover:text-foreground"
           >
             <Menu size={22} />
           </button>
@@ -99,7 +99,7 @@ export default function ConsumerLayout({
                 href={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition
                   ${active
-                    ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+                    ? "bg-foreground/10 dark:bg-foreground/20 text-foreground dark:text-foreground/60"
                     : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                   }
                 `}
@@ -133,7 +133,7 @@ export default function ConsumerLayout({
               <p className="font-medium text-gray-900 dark:text-gray-100">{userName}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Consumer</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold">
               {initials}
             </div>
           </div>

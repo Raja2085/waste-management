@@ -67,7 +67,7 @@ export default function ProducerLayout({
         ${collapsed ? "w-16" : "w-64"}`}
       >
         {/* Logo / Identity */}
-        <div className="h-16 flex items-center justify-center text-lg font-bold text-blue-600 shrink-0 border-b">
+        <div className="h-16 flex items-center justify-center text-lg font-bold text-foreground shrink-0 border-b">
           {collapsed ? initials : <span className="truncate px-4">{userName}</span>}
         </div>
 
@@ -157,7 +157,7 @@ export default function ProducerLayout({
               <p className="font-medium text-gray-900 dark:text-gray-100">{userName}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Producer</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold">
               {initials}
             </div>
           </div>
@@ -191,11 +191,11 @@ function SidebarItem({
       href={href}
       className={`flex items-center gap-3 px-3 py-2 rounded-lg transition
       ${active
-          ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400"
+          ? "bg-foreground/10 dark:bg-foreground/20 text-foreground dark:text-foreground/60"
           : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-200"
         }`}
     >
-      <span className="text-blue-600 dark:text-blue-500">{icon}</span>
+      <span className="text-foreground dark:text-background0">{icon}</span>
       {!collapsed && <span className="font-medium">{title}</span>}
     </Link>
   );

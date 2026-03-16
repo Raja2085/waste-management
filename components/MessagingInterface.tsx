@@ -361,7 +361,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
         return name.charAt(0).toUpperCase();
     };
 
-    if (loading) return <div className="flex justify-center items-center h-full"><Loader2 className="animate-spin text-blue-600" /></div>;
+    if (loading) return <div className="flex justify-center items-center h-full"><Loader2 className="animate-spin text-foreground" /></div>;
 
     return (
         <div className="flex h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4">
@@ -374,7 +374,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                         <input
                             type="text"
                             placeholder="Search users..."
-                            className="w-full pl-10 pr-4 py-2 rounded-xl border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 focus:ring-2 focus:ring-blue-500 transition-all text-sm outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                            className="w-full pl-10 pr-4 py-2 rounded-xl border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 focus:ring-2 focus:ring-foreground/50 transition-all text-sm outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                             value={searchQuery}
                             onChange={(e) => handleSearch(e.target.value)}
                         />
@@ -387,7 +387,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                                         className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center gap-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                         onClick={() => selectUser(u)}
                                     >
-                                        <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs font-bold">
+                                        <div className="w-8 h-8 rounded-full bg-foreground/10 dark:bg-foreground/15 flex items-center justify-center text-foreground dark:text-foreground/60 text-xs font-bold">
                                             {getAvatar(u)}
                                         </div>
                                         <div>
@@ -413,7 +413,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                             key={c.user.id}
                             onClick={() => setSelectedUserId(c.user.id)}
                             className={`flex items-center gap-3 p-4 hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition-colors border-l-4 ${selectedUserId === c.user.id
-                                ? "bg-white dark:bg-gray-700 border-blue-600 shadow-sm"
+                                ? "bg-white dark:bg-gray-700 border-foreground shadow-sm"
                                 : "border-transparent"
                                 }`}
                         >
@@ -434,7 +434,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                                 </p>
                             </div>
                             {c.unreadCount > 0 && (
-                                <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">
+                                <span className="bg-foreground text-background text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">
                                     {c.unreadCount}
                                 </span>
                             )}
@@ -495,7 +495,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                             >
                                 <div
                                     className={`max-w-[70%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender_id === currentUser
-                                        ? "bg-gray-900 dark:bg-blue-600 text-white rounded-tr-none"
+                                        ? "bg-gray-900 dark:bg-foreground text-background rounded-tr-none"
                                         : "bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-none"
                                         }`}
                                 >
@@ -524,7 +524,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                             />
                             <button
                                 onClick={sendMessage}
-                                className="p-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-md"
+                                className="p-2 bg-foreground text-background rounded-xl hover:bg-foreground/90 hover:text-background transition shadow-md"
                             >
                                 <Send size={18} />
                             </button>
@@ -533,7 +533,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                 </div>
             ) : (
                 <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                    <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4 text-blue-500 dark:text-blue-400">
+                    <div className="w-20 h-20 bg-foreground/10 dark:bg-foreground/15 rounded-full flex items-center justify-center mb-4 text-background0 dark:text-foreground/60">
                         <Send size={40} />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Select a conversation</h3>
@@ -546,7 +546,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
 
 export default function MessagingInterface(props: MessagingInterfaceProps) {
     return (
-        <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="animate-spin text-blue-600" /></div>}>
+        <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="animate-spin text-foreground" /></div>}>
             <MessagingInterfaceContent {...props} />
         </Suspense>
     );

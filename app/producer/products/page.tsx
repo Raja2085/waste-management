@@ -332,7 +332,7 @@ export default function ProductsPage() {
               key={tab}
               onClick={() => { setActiveTab(tab); if (tab === "Upload Waste") resetForm(); }}
               className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === tab
-                ? "bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-400 shadow-sm"
+                ? "bg-white dark:bg-gray-600 text-foreground dark:text-foreground/60 shadow-sm"
                 : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 }`}
             >
@@ -347,7 +347,7 @@ export default function ProductsPage() {
         <div className="animate-in fade-in duration-300">
           {loading ? (
             <div className="flex justify-center py-20">
-              <Loader2 className="animate-spin text-blue-600" size={40} />
+              <Loader2 className="animate-spin text-foreground" size={40} />
             </div>
           ) : (() => {
             // Filter products based on active tab
@@ -370,7 +370,7 @@ export default function ProductsPage() {
                   {activeTab === "Active Listings" && (
                     <button
                       onClick={() => setActiveTab("Upload Waste")}
-                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                      className="bg-foreground text-background px-6 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition"
                     >
                       Create Listing
                     </button>
@@ -407,7 +407,7 @@ export default function ProductsPage() {
                           {product.name}
                         </td>
                         <td className="px-6 py-4">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/5 dark:bg-foreground/15 text-foreground dark:text-foreground/50">
                             {product.category}
                           </span>
                         </td>
@@ -425,7 +425,7 @@ export default function ProductsPage() {
                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={() => handleEdit(product)}
-                                className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
+                                className="p-2 text-gray-500 dark:text-gray-400 hover:text-foreground dark:hover:text-foreground/60 hover:bg-foreground/5 dark:hover:bg-foreground/10 rounded-lg transition"
                                 title="Edit"
                               >
                                 <Edit size={16} />
@@ -477,7 +477,7 @@ export default function ProductsPage() {
                   onChange={handleImageChange}
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
-                <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-3 rounded-full mb-3">
+                <div className="bg-foreground/5 dark:bg-foreground/15 text-foreground dark:text-foreground/60 p-3 rounded-full mb-3">
                   <Upload size={24} />
                 </div>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Click to upload</p>
@@ -513,7 +513,7 @@ export default function ProductsPage() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. Mixed Plastic Scrap"
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-foreground/50 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                   />
                 </div>
                 <div>
@@ -522,7 +522,7 @@ export default function ProductsPage() {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-foreground/50 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -543,7 +543,7 @@ export default function ProductsPage() {
                       value={formData.price}
                       onChange={handleChange}
                       placeholder="0.00"
-                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-foreground/50 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                     />
                   </div>
                 </div>
@@ -558,7 +558,7 @@ export default function ProductsPage() {
                       value={formData.quantity}
                       onChange={handleChange}
                       placeholder="0"
-                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-foreground/50 focus:outline-none transition bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                     />
                   </div>
                 </div>
@@ -572,7 +572,7 @@ export default function ProductsPage() {
                   onChange={handleChange}
                   rows={3}
                   placeholder="Describe the condition and quality of the waste..."
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-foreground/50 focus:outline-none transition resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
@@ -580,13 +580,13 @@ export default function ProductsPage() {
               <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl space-y-4 border border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
                   <label className="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                    <MapPin size={18} className="text-blue-600 dark:text-blue-400" /> Location Details
+                    <MapPin size={18} className="text-foreground dark:text-foreground/60" /> Location Details
                   </label>
                   <button
                     type="button"
                     onClick={handleUseLocation}
                     disabled={locationLoading}
-                    className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 bg-white px-3 py-1.5 rounded-lg border shadow-sm transition"
+                    className="text-xs font-semibold text-foreground hover:text-foreground flex items-center gap-1 bg-white px-3 py-1.5 rounded-lg border shadow-sm transition"
                   >
                     {locationLoading ? <Loader2 size={12} className="animate-spin" /> : "📍"} Detect Location
                   </button>
@@ -628,7 +628,7 @@ export default function ProductsPage() {
                 <button
                   type="submit"
                   disabled={uploading}
-                  className="bg-blue-600 text-white px-8 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 disabled:opacity-70 flex items-center gap-2"
+                  className="bg-foreground text-background px-8 py-2.5 rounded-lg font-medium hover:bg-foreground/90 hover:text-background transition shadow-lg shadow-foreground/20 disabled:opacity-70 flex items-center gap-2"
                 >
                   {uploading && <Loader2 size={18} className="animate-spin" />}
                   {editingId ? "Update Listing" : "Publish Listing"}

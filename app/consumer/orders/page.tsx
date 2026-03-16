@@ -109,7 +109,7 @@ export default function ConsumerOrdersPage() {
             placeholder="Search by product name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border text-black dark:text-gray-100 border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm placeholder-gray-400 dark:placeholder-gray-500"
+            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border text-black dark:text-gray-100 border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground/50 focus:border-transparent transition-all shadow-sm placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>
       </div>
@@ -231,7 +231,7 @@ export default function ConsumerOrdersPage() {
             <p className="text-gray-500 mt-1 mb-6 max-w-sm mx-auto">
               You haven't placed any orders yet, or no orders match your search.
             </p>
-            <Link href="/consumer/products" className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-shadow shadow-sm hover:shadow">
+            <Link href="/consumer/products" className="px-6 py-2.5 bg-foreground text-background font-medium rounded-lg hover:bg-foreground/90 hover:text-background transition-shadow shadow-sm hover:shadow">
               Browse Products
             </Link>
           </div>
