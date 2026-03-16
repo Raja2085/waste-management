@@ -11,9 +11,12 @@ import {
   User,
   LogOut,
   MessageSquare, // New Icon
+  Menu,
 } from "lucide-react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AnimatePresence, motion } from "framer-motion";
+import { fadeIn } from "@/src/lib/animations";
 
 export default function ProducerLayout({
   children,
@@ -151,15 +154,15 @@ export default function ProducerLayout({
       <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Topbar */}
-        <header className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-between px-4 shrink-0">
+        <header className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-between px-4 shrink-0 z-10">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-black dark:text-white"
+              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-black dark:text-white transition-colors"
             >
-              ☰
+              <Menu size={22} className="transition-transform active:scale-90" />
             </button>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-white hidden md:block">
               Producer Dashboard
             </h1>
           </div>
@@ -170,15 +173,26 @@ export default function ProducerLayout({
               <p className="font-medium text-gray-900 dark:text-gray-100">{userName}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Producer</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold">
+            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold hover:scale-105 transition-transform cursor-pointer shadow-sm">
               {initials}
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          {children}
+        <main className="flex-1 p-6 overflow-y-auto relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              variants={fadeIn}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div >
     </div >

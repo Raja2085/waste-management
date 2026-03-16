@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { MapPin, Loader2, User, Building, Phone, Mail, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tabs = ["Account Info", "Address Details", "Recent Activity"];
 
@@ -274,10 +275,17 @@ export default function ProducerProfilePage() {
 
       {/* CONTENT AREA */}
       <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm min-h-[400px]">
-
-        {/* ================= ACCOUNT INFO ================= */}
-        {activeTab === "Account Info" && (
-          <div className="space-y-6 max-w-2xl">
+        <AnimatePresence mode="wait">
+          {/* ================= ACCOUNT INFO ================= */}
+          {activeTab === "Account Info" && (
+            <motion.div 
+              key="account"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6 max-w-2xl"
+            >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Company Details</h3>
 
             <div className="grid grid-cols-1 gap-6">
@@ -342,12 +350,19 @@ export default function ProducerProfilePage() {
                 </button>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* ================= ADDRESS DETAILS ================= */}
         {activeTab === "Address Details" && (
-          <div className="space-y-6 max-w-2xl">
+            <motion.div 
+              key="address"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6 max-w-2xl"
+            >
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Location Information</h3>
               {editing && (
@@ -422,12 +437,19 @@ export default function ProducerProfilePage() {
                 </button>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* ================= RECENT ACTIVITY ================= */}
         {activeTab === "Recent Activity" && (
-          <div className="flex flex-col items-center justify-center h-64 text-center">
+            <motion.div 
+              key="activity"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col items-center justify-center h-64 text-center"
+            >
             <div className="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
               <Loader2 className="text-gray-400 dark:text-gray-500" size={32} />
             </div>
@@ -435,9 +457,9 @@ export default function ProducerProfilePage() {
             <p className="text-gray-500 dark:text-gray-400 max-w-sm mt-2">
               Your recent orders, listings, and updates will appear here once you start using the platform.
             </p>
-          </div>
-        )}
-
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

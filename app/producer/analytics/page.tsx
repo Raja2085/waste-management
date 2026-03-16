@@ -12,6 +12,8 @@ import {
   Loader2,
   ChevronDown
 } from "lucide-react";
+import { motion } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 interface TopProduct {
   product_name: string;
@@ -200,9 +202,14 @@ export default function AnalyticsPage() {
       </div>
 
       {/* KPI CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
         {/* Card 1 */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <DollarSign className="w-16 h-16 text-green-600" />
           </div>
@@ -215,10 +222,10 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-1 text-xs font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 w-fit px-2 py-1 rounded-full">
             <TrendingUp size={12} /> {dateRange === "All Time" ? "Lifetime" : "Period Total"}
           </div>
-        </div>
+        </motion.div>
 
         {/* Card 2 */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Package className="w-16 h-16 text-foreground" />
           </div>
@@ -231,10 +238,10 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-1 text-xs font-semibold text-foreground dark:text-foreground/60 bg-foreground/5 dark:bg-foreground/15 w-fit px-2 py-1 rounded-full">
             <ArrowUpRight size={12} /> {dateRange === "All Time" ? "Lifetime" : "Period Total"}
           </div>
-        </div>
+        </motion.div>
 
         {/* Card 3: Active Listings */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+        <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <BarChart3 className="w-16 h-16 text-purple-600" />
           </div>
@@ -245,13 +252,18 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
             Currently available
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="flex flex-col gap-8">
 
         {/* TOP SELLING PRODUCTS */}
-        <div className="w-full bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
+        <motion.div 
+          variants={slideUp}
+          initial="hidden"
+          animate="visible"
+          className="w-full bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden"
+        >
           <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex justify-between items-center">
             <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Top Products ({dateRange})</h2>
           </div>
@@ -290,7 +302,7 @@ export default function AnalyticsPage() {
               </tbody>
             </table>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

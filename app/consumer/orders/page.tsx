@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { Search, Calendar, Package, MapPin, ArrowRight, Truck, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 /* ---------- Types ---------- */
 type Order = {
@@ -154,73 +156,81 @@ export default function ConsumerOrdersPage() {
             ))}
           </div>
         ) : filteredOrders.length > 0 ? (
-          filteredOrders.map((o) => (
-            <div
-              key={o.id}
-              className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md transition-all duration-200 flex flex-col md:flex-row gap-6 relative overflow-hidden"
-            >
-              {/* IMAGE / ICON */}
-              <div className="md:w-32 md:h-32 w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg shrink-0 overflow-hidden relative border border-gray-100 dark:border-gray-700">
-                {o.products?.image_urls?.[0] ? (
-                  <img
-                    src={o.products.image_urls[0]}
-                    alt={o.products.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300 dark:text-gray-500">
-                    <Package size={32} />
-                  </div>
-                )}
-                <div className="absolute top-2 left-2 bg-black/50 backdrop-blur text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-bold tracking-wide">
-                  {o.products?.category || "General"}
-                </div>
-              </div>
-
-              {/* INFO CONTENT */}
-              <div className="flex-1 space-y-3">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{o.products?.name}</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1">
-                      Order ID: #{o.id.slice(0, 8)}
-                    </p>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold border uppercase tracking-wide flex items-center gap-1 ${getStatusColor(o.status)} dark:bg-opacity-20`}>
-                    {o.status}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 text-sm mt-2">
-                  <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Quantity</p>
-                    <p className="font-medium text-gray-900 dark:text-gray-100 mt-0.5">{o.quantity} kg</p>
-                  </div>
-                  <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-700">
-                    <p className="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Total Cost</p>
-                    <p className="font-medium text-gray-900 dark:text-gray-100 mt-0.5">₹{o.total_price.toLocaleString()}</p>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="space-y-4"
+          >
+            {filteredOrders.map((o) => (
+              <motion.div
+                key={o.id}
+                variants={slideUp}
+                className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md transition-all duration-200 flex flex-col md:flex-row gap-6 relative overflow-hidden"
+              >
+                {/* IMAGE / ICON */}
+                <div className="md:w-32 md:h-32 w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg shrink-0 overflow-hidden relative border border-gray-100 dark:border-gray-700">
+                  {o.products?.image_urls?.[0] ? (
+                    <img
+                      src={o.products.image_urls[0]}
+                      alt={o.products.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300 dark:text-gray-500">
+                      <Package size={32} />
+                    </div>
+                  )}
+                  <div className="absolute top-2 left-2 bg-black/50 backdrop-blur text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-bold tracking-wide">
+                    {o.products?.category || "General"}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 pt-2">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={14} /> Ordered on {new Date(o.created_at).toLocaleDateString()}
-                  </span>
+                {/* INFO CONTENT */}
+                <div className="flex-1 space-y-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{o.products?.name}</h2>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1">
+                        Order ID: #{o.id.slice(0, 8)}
+                      </p>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border uppercase tracking-wide flex items-center gap-1 ${getStatusColor(o.status)} dark:bg-opacity-20`}>
+                      {o.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 text-sm mt-2">
+                    <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-700">
+                      <p className="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Quantity</p>
+                      <p className="font-medium text-gray-900 dark:text-gray-100 mt-0.5">{o.quantity} kg</p>
+                    </div>
+                    <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-700">
+                      <p className="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Total Cost</p>
+                      <p className="font-medium text-gray-900 dark:text-gray-100 mt-0.5">₹{o.total_price.toLocaleString()}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 pt-2">
+                    <span className="flex items-center gap-1">
+                      <Calendar size={14} /> Ordered on {new Date(o.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* ACTION BUTTON (Mobile: Full width, Desktop: Right aligned) */}
-              <div className="mt-4 md:mt-0 md:self-center w-full md:w-auto">
-                <Link
-                  href={`/consumer/orders/${o.id}`}
-                  className="w-full md:w-auto px-5 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-colors flex items-center justify-center gap-2"
-                >
-                  View Order Details <ArrowRight size={16} />
-                </Link>
-              </div>
+                {/* ACTION BUTTON (Mobile: Full width, Desktop: Right aligned) */}
+                <div className="mt-4 md:mt-0 md:self-center w-full md:w-auto">
+                  <Link
+                    href={`/consumer/orders/${o.id}`}
+                    className="w-full md:w-auto px-5 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-colors flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+                  >
+                    View Order Details <ArrowRight size={16} />
+                  </Link>
+                </div>
 
-            </div>
-          ))
+              </motion.div>
+            ))}
+          </motion.div>
         ) : (
           /* EMPTY STATE */
           <div className="text-center py-20 bg-white dark:bg-gray-800 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl">

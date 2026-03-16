@@ -22,6 +22,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { motion } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 export default function ProducerDashboard() {
   const [loading, setLoading] = useState(true);
@@ -203,35 +205,51 @@ export default function ProducerDashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard
-          title="Total Revenue"
-          value={`₹${stats.totalRevenue.toLocaleString()}`}
-          icon={<TrendingUp className="text-green-600" />}
-          bg="bg-green-50"
-        />
-        <StatCard
-          title="Active Listings"
-          value={stats.activeListings}
-          icon={<CheckCircle className="text-foreground" />}
-          bg="bg-foreground/5"
-        />
-        <StatCard
-          title="Completed Orders"
-          value={stats.completedOrders}
-          icon={<ClipboardCheck className="text-purple-600" />}
-          bg="bg-purple-50"
-        />
-      </div>
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      >
+        <motion.div variants={slideUp}>
+          <StatCard
+            title="Total Revenue"
+            value={`₹${stats.totalRevenue.toLocaleString()}`}
+            icon={<TrendingUp className="text-green-600" />}
+            bg="bg-green-50"
+          />
+        </motion.div>
+        <motion.div variants={slideUp}>
+          <StatCard
+            title="Active Listings"
+            value={stats.activeListings}
+            icon={<CheckCircle className="text-foreground" />}
+            bg="bg-foreground/5"
+          />
+        </motion.div>
+        <motion.div variants={slideUp}>
+          <StatCard
+            title="Completed Orders"
+            value={stats.completedOrders}
+            icon={<ClipboardCheck className="text-purple-600" />}
+            bg="bg-purple-50"
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Main Content Info */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+      >
 
         {/* Left Column: Chart + Activity */}
         <div className="lg:col-span-2 space-y-8">
 
           {/* Sales Chart */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+          <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
                 <BarChart3 size={20} className="text-foreground dark:text-foreground/60" />
@@ -292,10 +310,10 @@ export default function ProducerDashboard() {
               </ResponsiveContainer>
               )}
             </div>
-          </div>
+          </motion.div>
 
           {/* Recent Activity */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+          <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
             <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-6">Recent Activity</h2>
 
             {recentOrders.length === 0 ? (
@@ -325,32 +343,37 @@ export default function ProducerDashboard() {
                 ))}
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
 
         {/* Right Column: Tips / Actions */}
         <div className="space-y-6">
-          <div className="bg-foreground text-background p-6 rounded-2xl shadow-lg">
+          <motion.div variants={slideUp} className="bg-foreground text-background p-6 rounded-2xl shadow-lg">
             <h3 className="font-bold text-lg mb-2">Grow your Impact</h3>
             <p className="text-background/90 text-sm mb-4">You have recycled {stats.totalSold} kg of waste so far! Keep listing to increase your contribution.</p>
             <Link href="/producer/analytics" className="text-sm font-semibold bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg inline-block transition">
               View Full Analytics
             </Link>
-          </div>
+          </motion.div>
 
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+          <motion.div variants={slideUp} className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
             <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-4">Quick Tips</h2>
             <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Use clear photos for listings</li>
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Accurately category your waste</li>
               <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0" /> Respond to orders quickly</li>
             </ul>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Recent Listings Table */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
+      <motion.div 
+        variants={slideUp}
+        initial="hidden"
+        animate="visible"
+        className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden"
+      >
         <div className="p-6 border-b border-gray-50 dark:border-gray-700 flex justify-between items-center">
           <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100">Recent Listings</h2>
           <Link href="/producer/products" className="text-sm text-foreground hover:text-foreground font-medium">
@@ -391,7 +414,7 @@ export default function ProducerDashboard() {
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

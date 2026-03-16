@@ -14,6 +14,8 @@ import {
 import { useState, useEffect } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AnimatePresence, motion } from "framer-motion";
+import { fadeIn } from "@/src/lib/animations";
 
 export default function ConsumerLayout({
   children,
@@ -132,9 +134,9 @@ export default function ConsumerLayout({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-black dark:text-white"
+              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-black dark:text-white transition-colors"
             >
-              <Menu size={22} />
+              <Menu size={22} className="transition-transform active:scale-90" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900 dark:text-white hidden md:block">
               Consumer Dashboard
@@ -146,14 +148,25 @@ export default function ConsumerLayout({
               <p className="font-medium text-gray-900 dark:text-gray-100">{userName}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Consumer</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold">
+            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold hover:scale-105 transition-transform cursor-pointer shadow-sm">
               {initials}
             </div>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-6">
-          {children}
+        <div className="flex-1 overflow-y-auto p-6 relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              variants={fadeIn}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </main>
     </div>

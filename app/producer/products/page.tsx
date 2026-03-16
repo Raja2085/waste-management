@@ -16,6 +16,8 @@ import {
   Scale,
   Check
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 type Product = {
   id: string;
@@ -343,9 +345,16 @@ export default function ProductsPage() {
       </div>
 
       {/* ================= LISTINGS & HISTORY TABS ================= */}
-      {(activeTab === "Active Listings" || activeTab === "Sold History") && (
-        <div className="animate-in fade-in duration-300">
-          {loading ? (
+      <AnimatePresence mode="wait">
+        {(activeTab === "Active Listings" || activeTab === "Sold History") && (
+          <motion.div 
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {loading ? (
             <div className="flex justify-center py-20">
               <Loader2 className="animate-spin text-foreground" size={40} />
             </div>
@@ -393,9 +402,18 @@ export default function ProductsPage() {
                       <th className="px-6 py-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <motion.tbody 
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                    className="divide-y divide-gray-100"
+                  >
                     {displayedProducts.map((product) => (
-                      <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group border-b dark:border-gray-700 last:border-0">
+                      <motion.tr 
+                        variants={slideUp}
+                        key={product.id} 
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group border-b dark:border-gray-700 last:border-0"
+                      >
                         <td className="px-6 py-4 w-20">
                           <img
                             src={product.image_urls?.[0] || "/placeholder.png"}
@@ -444,19 +462,28 @@ export default function ProductsPage() {
                             </span>
                           )}
                         </td>
-                      </tr>
+                      </motion.tr>
                     ))}
-                  </tbody>
+                  </motion.tbody>
                 </table>
               </div>
             );
           })()}
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ================= UPLOAD FORM TAB ================= */}
-      {activeTab === "Upload Waste" && (
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden animate-in zoom-in-95 duration-300">
+      <AnimatePresence mode="wait">
+        {activeTab === "Upload Waste" && (
+          <motion.div 
+            key="upload"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="max-w-4xl mx-auto bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden"
+          >
           <div className="p-8 border-b dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
               {editingId ? "Edit Listing" : "Create New Listing"}
@@ -637,8 +664,9 @@ export default function ProductsPage() {
             </div>
 
           </form>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

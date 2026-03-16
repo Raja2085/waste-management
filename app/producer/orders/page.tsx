@@ -14,6 +14,8 @@ import {
   Check,
   X
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 type Order = {
   id: string;
@@ -173,77 +175,90 @@ export default function OrdersPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                {filteredOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900 dark:text-gray-100">{o.products.name}</div>
-                      <div className="text-gray-500 dark:text-gray-400 text-xs mt-0.5">{o.products.category} • {new Date(o.created_at).toLocaleDateString()}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900 dark:text-gray-100">{o.buyer_name}</div>
-                      <div className="text-gray-500 dark:text-gray-400 text-xs">{o.buyer_company}</div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <div className="font-semibold text-gray-900 dark:text-gray-100">₹{o.total_price}</div>
-                      <div className="text-gray-500 dark:text-gray-400 text-xs">{o.quantity} kg</div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${o.status === "Pending"
-                          ? "bg-yellow-50 text-yellow-700 border-yellow-200"
-                          : o.status === "Approved"
-                            ? "bg-foreground/5 text-foreground border-foreground/20"
-                            : o.status === "Completed"
-                              ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800"
-                              : "bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800"
-                          }`}
-                      >
-                        {o.status === "Pending" && <Clock size={12} />}
-                        {o.status === "Approved" && <CheckCircle size={12} />}
-                        {o.status === "Completed" && <CheckCircle size={12} />}
-                        {o.status === "Rejected" && <XCircle size={12} />}
-                        {o.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      {o.status === "Pending" ? (
-                        <>
-                          <button
-                            onClick={() => updateStatus(o.id, "Approved", o.product_id)}
-                            className="p-1.5 bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
-                            title="Approve"
-                          >
-                            <Check size={16} />
-                          </button>
-                          <button
-                            onClick={() => updateStatus(o.id, "Rejected")}
-                            className="p-1.5 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
-                            title="Reject"
-                          >
-                            <X size={16} />
-                          </button>
-                        </>
-                      ) : o.status === "Approved" ? (
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => updateStatus(o.id, "Completed")}
-                            className="px-3 py-1.5 bg-foreground text-background rounded-md text-xs font-medium hover:bg-foreground/90 hover:text-background transition"
-                          >
-                            Mark Completed
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex justify-end gap-2 text-gray-400">
-                          <span className="text-xs">No actions</span>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              <motion.tbody 
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+                className="divide-y divide-gray-100 dark:divide-gray-700"
+              >
+                <AnimatePresence>
+                  {filteredOrders.map((o) => (
+                    <motion.tr 
+                      key={o.id}
+                      variants={slideUp}
+                      exit={{ opacity: 0, x: -20 }}
+                      className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-gray-900 dark:text-gray-100">{o.products.name}</div>
+                        <div className="text-gray-500 dark:text-gray-400 text-xs mt-0.5">{o.products.category} • {new Date(o.created_at).toLocaleDateString()}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-gray-900 dark:text-gray-100">{o.buyer_name}</div>
+                        <div className="text-gray-500 dark:text-gray-400 text-xs">{o.buyer_company}</div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="font-semibold text-gray-900 dark:text-gray-100">₹{o.total_price}</div>
+                        <div className="text-gray-500 dark:text-gray-400 text-xs">{o.quantity} kg</div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${o.status === "Pending"
+                            ? "bg-yellow-50 text-yellow-700 border-yellow-200"
+                            : o.status === "Approved"
+                              ? "bg-foreground/5 text-foreground border-foreground/20"
+                              : o.status === "Completed"
+                                ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800"
+                                : "bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800"
+                            }`}
+                        >
+                          {o.status === "Pending" && <Clock size={12} />}
+                          {o.status === "Approved" && <CheckCircle size={12} />}
+                          {o.status === "Completed" && <CheckCircle size={12} />}
+                          {o.status === "Rejected" && <XCircle size={12} />}
+                          {o.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        {o.status === "Pending" ? (
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() => updateStatus(o.id, "Approved", o.product_id)}
+                              className="p-1.5 bg-green-100 text-green-700 rounded hover:bg-green-200 transition active:scale-95"
+                              title="Approve"
+                            >
+                              <Check size={16} />
+                            </button>
+                            <button
+                              onClick={() => updateStatus(o.id, "Rejected")}
+                              className="p-1.5 bg-red-100 text-red-700 rounded hover:bg-red-200 transition active:scale-95"
+                              title="Reject"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : o.status === "Approved" ? (
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() => updateStatus(o.id, "Completed")}
+                              className="px-3 py-1.5 bg-foreground text-background rounded-md text-xs font-medium hover:bg-foreground/90 hover:text-background transition active:scale-95"
+                            >
+                              Mark Completed
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex justify-end gap-2 text-gray-400">
+                            <span className="text-xs">No actions</span>
+                          </div>
+                        )}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </motion.tbody>
             </table>
           )}
+
         </div>
       </div>
     </div>

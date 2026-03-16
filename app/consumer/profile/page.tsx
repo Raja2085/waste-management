@@ -14,6 +14,7 @@ import {
   Calendar,
   Clock
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tabs = ["Account Info", "Address Details", "Recent Activity"];
 
@@ -303,10 +304,17 @@ export default function ConsumerProfilePage() {
 
       {/* CONTENT AREA */}
       <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-sm min-h-[400px]">
-
-        {/* ================= ACCOUNT INFO ================= */}
-        {activeTab === "Account Info" && (
-          <div className="space-y-8 max-w-3xl animate-in fade-in delay-75">
+        <AnimatePresence mode="wait">
+          {/* ================= ACCOUNT INFO ================= */}
+          {activeTab === "Account Info" && (
+            <motion.div 
+              key="account"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-8 max-w-3xl"
+            >
             <div className="grid grid-cols-1 gap-6">
 
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b dark:border-gray-700 pb-2">Personal Information</h3>
@@ -374,12 +382,19 @@ export default function ConsumerProfilePage() {
                 </button>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* ================= ADDRESS DETAILS ================= */}
         {activeTab === "Address Details" && (
-          <div className="space-y-6 max-w-3xl animate-in fade-in delay-75">
+            <motion.div 
+              key="address"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6 max-w-3xl"
+            >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Delivery Location</h3>
               {editing && (
@@ -454,12 +469,19 @@ export default function ConsumerProfilePage() {
                 </button>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* ================= RECENT ACTIVITY ================= */}
         {activeTab === "Recent Activity" && (
-          <div className="space-y-6 animate-in fade-in delay-75">
+            <motion.div 
+              key="activity"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Order History</h3>
             </div>
@@ -522,9 +544,9 @@ export default function ConsumerProfilePage() {
                 </table>
               </div>
             )}
-          </div>
-        )}
-
+          </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { useEffect, useState, useRef, Suspense } from "react";
 import { Send, Search, Phone, Video, MoreVertical, Loader2 } from "lucide-react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { staggerContainer, slideInFromLeft, fadeIn } from "@/src/lib/animations";
 
 // Types
 type UserProfile = {
@@ -364,7 +366,11 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
     if (loading) return <div className="flex justify-center items-center h-full"><Loader2 className="animate-spin text-foreground" /></div>;
 
     return (
-        <div className="flex h-[calc(100vh-12rem)] min-h-[500px] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4">
+        <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex h-[calc(100vh-12rem)] min-h-[500px] md:h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 rounded-2xl shadow-sm border dark:border-gray-700 overflow-hidden mt-4"
+        >
             {/* Sidebar */}
             <div className={`w-full md:w-80 border-r dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-800 ${selectedUserId ? 'hidden md:flex' : 'flex'}`}>
                 <div className="p-4 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -401,15 +407,16 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto">
+                <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="flex-1 overflow-y-auto">
                     {conversations.length === 0 && (
-                        <div className="p-8 text-center text-gray-400 dark:text-gray-500 text-sm">
+                        <motion.div variants={fadeIn} className="p-8 text-center text-gray-400 dark:text-gray-500 text-sm">
                             <p>No conversations yet.</p>
                             <p className="mt-2 text-xs">Search for a user or contact a seller to start chatting.</p>
-                        </div>
+                        </motion.div>
                     )}
                     {conversations.map((c) => (
-                        <div
+                        <motion.div
+                            variants={slideInFromLeft}
                             key={c.user.id}
                             onClick={() => setSelectedUserId(c.user.id)}
                             className={`flex items-center gap-3 p-4 hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition-colors border-l-4 ${selectedUserId === c.user.id
@@ -438,9 +445,9 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                                     {c.unreadCount}
                                 </span>
                             )}
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
 
             {/* Chat Area */}
@@ -488,24 +495,29 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                                 <p>Start the conversation!</p>
                             </div>
                         )}
-                        {messages.map((msg) => (
-                            <div
-                                key={msg.id}
-                                className={`flex gap-3 ${msg.sender_id === currentUser ? "flex-row-reverse" : "flex-row"}`}
-                            >
-                                <div
-                                    className={`max-w-[70%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender_id === currentUser
-                                        ? "bg-gray-900 dark:bg-foreground text-background rounded-tr-none"
-                                        : "bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-none"
-                                        }`}
+                        <AnimatePresence initial={false}>
+                            {messages.map((msg) => (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    key={msg.id}
+                                    className={`flex gap-3 ${msg.sender_id === currentUser ? "flex-row-reverse" : "flex-row"}`}
                                 >
-                                    <p>{msg.content}</p>
-                                    <span className={`text-[10px] block mt-2 text-right opacity-70`}>
-                                        {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </span>
-                                </div>
-                            </div>
-                        ))}
+                                    <div
+                                        className={`max-w-[70%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender_id === currentUser
+                                            ? "bg-gray-900 dark:bg-foreground text-background rounded-tr-none"
+                                            : "bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-none"
+                                            }`}
+                                    >
+                                        <p>{msg.content}</p>
+                                        <span className={`text-[10px] block mt-2 text-right opacity-70`}>
+                                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
                         <div ref={scrollRef} />
                     </div>
 
@@ -540,7 +552,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                     <p className="max-w-xs text-center mt-2 text-gray-400 dark:text-gray-500">Choose a contact from the list or search for a user to start messaging.</p>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 

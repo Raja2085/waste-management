@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { Search, MapPin, Filter } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { staggerContainer, slideUp } from "@/src/lib/animations";
 
 type Product = {
   id: string;
@@ -155,10 +157,16 @@ export default function ConsumerProductsPage() {
               <p className="text-gray-400 dark:text-gray-500 text-lg">No products found matching your criteria.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
               {filtered.map((p) => (
-                <div
+                <motion.div
                   key={p.id}
+                  variants={slideUp}
                   className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
                 >
                   {/* Image */}
@@ -198,9 +206,9 @@ export default function ConsumerProductsPage() {
                       </Link>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
