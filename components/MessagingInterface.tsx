@@ -113,14 +113,21 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
             if ((count === 0 || count === null) && productNameParam && !sendingRef.current) {
                 sendingRef.current = true; // Lock
 
-                // Construct message
-                const name = currentUserObj.user_metadata?.first_name
-                    ? `${currentUserObj.user_metadata.first_name} ${currentUserObj.user_metadata.last_name || ""}`
+                // 3. Construct message
+                // Fetch current user details from 'users' table for name
+                const { data: currentUserData } = await supabase
+                    .from("users")
+                    .select("first_name, last_name")
+                    .eq("id", currentUserObj.id)
+                    .single();
+
+                const name = currentUserData?.first_name 
+                    ? `${currentUserData.first_name} ${currentUserData.last_name || ""}`.trim()
                     : "a consumer";
 
                 const content = `Hi, I'm ${name} and I'm interested in ${productNameParam}.`;
 
-                // Send it directly
+                // 4. Send it directly
                 const payload = {
                     sender_id: currentUserObj.id,
                     receiver_id: targetUserId,
@@ -545,7 +552,7 @@ function MessagingInterfaceContent({ userType }: MessagingInterfaceProps) {
                 </div>
             ) : (
                 <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                    <div className="w-20 h-20 bg-foreground/10 dark:bg-foreground/15 rounded-full flex items-center justify-center mb-4 text-background0 dark:text-foreground/60">
+                    <div className="w-20 h-20 bg-foreground/10 dark:bg-foreground/15 rounded-full flex items-center justify-center mb-4 text-background dark:text-foreground/60">
                         <Send size={40} />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Select a conversation</h3>

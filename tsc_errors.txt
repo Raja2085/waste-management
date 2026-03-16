@@ -1,0 +1,2 @@
+components/MessagingInterface.tsx(5,26): error TS2307: Cannot find module '@/src/lib/supabaseClient' or its corresponding type declarations.
+components/MessagingInterface.tsx(8,59): error TS2307: Cannot find module '@/src/lib/animations' or its corresponding type declarations.

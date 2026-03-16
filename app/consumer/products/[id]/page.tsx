@@ -109,13 +109,13 @@ export default function ProductDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 font-sans text-gray-800">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-gray-50 py-4 px-4 sm:px-6 lg:px-8 font-sans text-gray-800">
+      <div className="max-w-5xl mx-auto">
 
         {/* 🔙 Back Button */}
         <button
           onClick={() => router.back()}
-          className="group inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-8 transition-colors"
+          className="group inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Marketplace
@@ -125,8 +125,8 @@ export default function ProductDetailsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12">
 
             {/* 🖼️ Left Column: Image Gallery */}
-            <div className="p-6 lg:p-10 bg-gray-50 border-r border-gray-100">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-200 mb-4">
+            <div className="p-4 lg:p-6 bg-gray-50 border-r border-gray-100 flex flex-col items-center">
+              <div className="w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-200 mb-4">
                 <img
                   src={activeImage}
                   alt={product.name}
@@ -169,16 +169,16 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* 📝 Right Column: Product Info */}
-            <div className="p-6 lg:p-10 flex flex-col">
+            <div className="p-4 lg:p-6 flex flex-col">
 
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
+              <div className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/5 text-foreground uppercase tracking-wide">
                     {product.category}
                   </span>
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">
                   {product.name}
                 </h1>
 
@@ -190,12 +190,12 @@ export default function ProductDetailsPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100">
-                <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-500">Price per kg</span>
-                  <span className="text-3xl font-bold text-gray-900">₹ {product.price}</span>
+              <div className="bg-gray-50 rounded-2xl p-4 mb-4 border border-gray-100">
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-xs font-medium text-gray-500">Price per kg</span>
+                  <span className="text-2xl font-bold text-gray-900">₹ {product.price}</span>
                 </div>
-                <div className="w-full h-px bg-gray-200 my-4"></div>
+                <div className="w-full h-px bg-gray-200 my-3"></div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-sm text-gray-600">
                     <Package className="w-4 h-4" /> Available Quantity
@@ -204,15 +204,15 @@ export default function ProductDetailsPage() {
                 </div>
               </div>
 
-              <div className="prose prose-sm text-gray-600 mb-8">
-                <h3 className="text-gray-900 font-semibold mb-2">Description</h3>
-                <p>{product.description || "No specific description provided by the seller."}</p>
+              <div className="prose prose-sm text-gray-600 mb-4">
+                <h3 className="text-gray-900 font-semibold mb-1 text-sm">Description</h3>
+                <p className="text-sm">{product.description || "No specific description provided by the seller."}</p>
               </div>
 
-              <div className="mt-auto pt-6 border-t border-gray-100 space-y-3">
+              <div className="mt-auto pt-4 border-t border-gray-100 flex flex-col items-center gap-3">
 
                 {purchaseSuccess ? (
-                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center w-full max-w-sm">
                     <div className="flex items-center justify-center gap-2 text-green-700 font-bold text-lg mb-1">
                       <CheckCircle className="w-6 h-6" /> Request Sent!
                     </div>
@@ -222,11 +222,11 @@ export default function ProductDetailsPage() {
                   <button
                     onClick={handleRequestPurchase}
                     disabled={buying}
-                    className="w-full bg-gray-900 text-white rounded-xl py-4 font-semibold text-lg hover:bg-black transition-colors shadow-lg shadow-gray-200 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full max-w-xs bg-gray-900 text-white rounded-xl py-3 font-medium text-base hover:bg-black transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {buying ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" /> Processing...
+                        <Loader2 className="w-4 h-4 animate-spin" /> Processing...
                       </>
                     ) : (
                       "Request Purchase"
@@ -236,7 +236,7 @@ export default function ProductDetailsPage() {
 
                 <button
                   onClick={() => router.push(`/consumer/messages?sellerId=${product.producer_id}&productName=${encodeURIComponent(product.name)}`)}
-                  className="w-full bg-white text-gray-900 border border-gray-200 rounded-xl py-3 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                  className="w-full max-w-xs bg-white text-gray-900 border border-gray-200 rounded-xl py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
                 >
                   <Phone className="w-4 h-4" /> Contact Seller
                 </button>
