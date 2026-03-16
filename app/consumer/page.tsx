@@ -58,11 +58,8 @@ export default function ConsumerDashboard() {
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6 border-gray-200 dark:border-gray-700">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
-            Welcome back, {firstName} 👋
+            Consumer Dashboard
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Overview of your waste management activities
-          </p>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700">

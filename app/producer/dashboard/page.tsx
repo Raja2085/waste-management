@@ -197,7 +197,6 @@ export default function ProducerDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Producer Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400">Overview of your waste management activity.</p>
         </div>
         <Link href="/producer/products" className="bg-foreground text-background px-4 py-2 rounded-lg hover:bg-foreground/90 hover:text-background transition font-medium dark:hover:bg-foreground/80">
           + Add New Listing
