@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, MapPin, Tag, Package, Phone, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, MapPin, Tag, Package, Phone, CheckCircle, Loader2, Navigation } from "lucide-react";
 import Link from "next/link";
 
 type Product = {
@@ -151,6 +151,21 @@ export default function ProductDetailsPage() {
                   ))}
                 </div>
               )}
+
+              {/* View Directions Button below Image */}
+              <div className="mt-6 flex justify-center">
+                <button
+                  onClick={() => {
+                    if (product) {
+                      const addressString = [product.address, product.district, product.state].filter(Boolean).join(", ") + ", India";
+                      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressString)}`, '_blank');
+                    }
+                  }}
+                  className="w-fit bg-blue-50 text-blue-600 border border-blue-200 rounded-lg py-2 px-4 font-medium text-sm hover:bg-blue-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  <Navigation className="w-4 h-4" /> View Direction
+                </button>
+              </div>
             </div>
 
             {/* 📝 Right Column: Product Info */}
