@@ -33,10 +33,10 @@ app = FastAPI(
     description="AI-powered waste classification using CNN (MobileNetV2) and NLP (spaCy)"
 )
 
-# CORS - allow Next.js frontend
+# CORS - allow all origins for deployment flexibility
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
