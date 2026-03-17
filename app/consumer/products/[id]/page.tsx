@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabaseClient";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, MapPin, Tag, Package, Phone, CheckCircle, Loader2, Navigation } from "lucide-react";
+import { ArrowLeft, MapPin, Tag, Package, Phone, CheckCircle, Loader2, Navigation, Sparkles, Activity } from "lucide-react";
 import Link from "next/link";
 
 type Product = {
@@ -18,6 +18,12 @@ type Product = {
   state: string | null;
   image_urls: string[] | null;
   producer_id: string;
+  // AI fields
+  material_type?: string | null;
+  quality?: string | null;
+  recyclability_score?: number | null;
+  ai_keywords?: string[] | null;
+  ai_confidence?: number | null;
 };
 
 export default function ProductDetailsPage() {
@@ -208,6 +214,70 @@ export default function ProductDetailsPage() {
                 <h3 className="text-gray-900 font-semibold mb-1 text-sm">Description</h3>
                 <p className="text-sm">{product.description || "No specific description provided by the seller."}</p>
               </div>
+
+              {/* AI Classification Section */}
+              {product.material_type && (
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-2xl p-4 mb-4 border border-purple-100 dark:border-purple-900/30">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-4 h-4 text-purple-600" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">AI Classification</h3>
+                    {product.ai_confidence && (
+                      <span className="ml-auto text-xs font-medium text-purple-600 bg-purple-100 dark:bg-purple-900/30 px-2 py-0.5 rounded-full">
+                        {product.ai_confidence}% confident
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-0.5">Material</p>
+                      <p className="text-sm font-semibold text-gray-900 capitalize">{product.material_type}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-0.5">Quality</p>
+                      <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${
+                        product.quality === 'high' ? 'bg-green-100 text-green-700' :
+                        product.quality === 'low' ? 'bg-red-100 text-red-700' :
+                        'bg-yellow-100 text-yellow-700'
+                      }`}>
+                        {product.quality}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Recyclability Bar */}
+                  {product.recyclability_score != null && (
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs text-gray-600 flex items-center gap-1">
+                          <Activity className="w-3 h-3 text-green-500" /> Recyclability
+                        </span>
+                        <span className="text-xs font-bold text-gray-900">{product.recyclability_score}/100</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-700 ${
+                            product.recyclability_score >= 70 ? 'bg-green-500' :
+                            product.recyclability_score >= 40 ? 'bg-yellow-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${product.recyclability_score}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Keywords */}
+                  {product.ai_keywords && product.ai_keywords.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.ai_keywords.map((kw, i) => (
+                        <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
+                          {kw}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="mt-auto pt-4 border-t border-gray-100 flex flex-col items-center gap-3">
 

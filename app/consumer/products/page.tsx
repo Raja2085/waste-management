@@ -12,6 +12,7 @@ type Product = {
   name: string;
   category: string;
   quantity: number;
+  description: string | null;
   address: string | null;
   district: string | null;
   state: string | null;
@@ -40,11 +41,17 @@ export default function ConsumerProductsPage() {
     fetchProducts();
   }, []);
 
+  // Auto-apply filters whenever any filter value changes
+  useEffect(() => {
+    applyFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, category, minQty, distance, products]);
+
   const fetchProducts = async () => {
     const { data } = await supabase
       .from("products")
-      .select("*, address, district, state") // Explicitly select address fields
-      .eq("status", "available") // Only show available products
+      .select("*, address, district, state")
+      .eq("status", "available")
       .order("created_at", { ascending: false });
 
     setProducts(data || []);
@@ -55,13 +62,16 @@ export default function ConsumerProductsPage() {
     let result = [...products];
 
     if (search.trim()) {
+      const q = search.toLowerCase();
       result = result.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase())
+        p.name.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.description && p.description.toLowerCase().includes(q))
       );
     }
 
     if (category !== "all") {
-      result = result.filter((p) => p.category === category);
+      result = result.filter((p) => p.category.toLowerCase() === category.toLowerCase());
     }
 
     if (minQty) {
@@ -95,6 +105,7 @@ export default function ConsumerProductsPage() {
                 placeholder="Search by name, category..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") applyFilters(); }}
               />
             </div>
 

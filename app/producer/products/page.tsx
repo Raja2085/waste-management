@@ -14,7 +14,14 @@ import {
   Image as ImageIcon,
   DollarSign,
   Scale,
-  Check
+  Check,
+  Brain,
+  Sparkles,
+  Users,
+  Tag,
+  Activity,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, slideUp } from "@/src/lib/animations";
@@ -31,6 +38,28 @@ type Product = {
   state: string | null;
   image_urls: string[] | null;
   created_at?: string;
+  // AI fields
+  material_type?: string | null;
+  quality?: string | null;
+  recyclability_score?: number | null;
+  ai_keywords?: string[] | null;
+  ai_confidence?: number | null;
+  ai_processed_at?: string | null;
+};
+
+type AIResult = {
+  material_type: string;
+  quality: string;
+  recyclability_score: number;
+  keywords: string[];
+  confidence: number;
+};
+
+type MatchedConsumer = {
+  consumer_id: string;
+  consumer_name: string;
+  relevance_score: number;
+  match_reasons: string[];
 };
 
 const categories = [
@@ -69,6 +98,14 @@ export default function ProductsPage() {
 
   const [locationLoading, setLocationLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+
+  // AI State
+  const [aiAnalyzing, setAiAnalyzing] = useState(false);
+  const [aiResult, setAiResult] = useState<AIResult | null>(null);
+  const [aiError, setAiError] = useState("");
+  const [matchedConsumers, setMatchedConsumers] = useState<MatchedConsumer[]>([]);
+  const [matchLoading, setMatchLoading] = useState(false);
+  const [showMatches, setShowMatches] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -131,6 +168,67 @@ export default function ProductsPage() {
     return uploadedUrls;
   };
 
+  /* ================= AI ANALYSIS ================= */
+  const triggerAIAnalysis = async (productId: string, imageUrl: string, description: string, quantity: number) => {
+    setAiAnalyzing(true);
+    setAiError("");
+    setAiResult(null);
+
+    try {
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product_id: productId,
+          image_url: imageUrl,
+          description: description,
+          quantity: quantity,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "AI analysis failed");
+      }
+
+      const data = await response.json();
+      setAiResult({
+        material_type: data.material_type,
+        quality: data.quality,
+        recyclability_score: data.recyclability_score,
+        keywords: data.keywords,
+        confidence: data.confidence,
+      });
+    } catch (err: any) {
+      console.error("AI analysis error:", err);
+      setAiError(err.message || "Failed to analyze waste. Is the AI service running?");
+    } finally {
+      setAiAnalyzing(false);
+    }
+  };
+
+  /* ================= MATCH CONSUMERS ================= */
+  const fetchMatchedConsumers = async (productId: string) => {
+    setMatchLoading(true);
+    setMatchedConsumers([]);
+
+    try {
+      const response = await fetch("/api/match-consumers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_id: productId }),
+      });
+
+      const data = await response.json();
+      setMatchedConsumers(data.matches || []);
+      setShowMatches(true);
+    } catch (err) {
+      console.error("Match error:", err);
+    } finally {
+      setMatchLoading(false);
+    }
+  };
+
   /* ================= SUBMIT FORM ================= */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,9 +284,10 @@ export default function ProductsPage() {
       }
 
       // Upload new images if any
+      let finalUrls = [...currentImageUrls];
       if (productId && images.length > 0) {
         const newUrls = await processImageUploads(productId);
-        const finalUrls = [...currentImageUrls, ...newUrls]; // Append new to existing
+        finalUrls = [...currentImageUrls, ...newUrls];
 
         await supabase
           .from("products")
@@ -199,14 +298,19 @@ export default function ProductsPage() {
       setSuccessMsg(editingId ? "Product updated successfully!" : "Product listed successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
 
-      resetForm();
+      setUploading(false);
+
+      // Trigger AI analysis automatically after upload
+      if (productId) {
+        const imageUrl = finalUrls.length > 0 ? finalUrls[0] : "";
+        await triggerAIAnalysis(productId, imageUrl, formData.description, Number(formData.quantity));
+      }
+
       fetchProducts();
-      setActiveTab("Active Listings");
 
     } catch (error) {
       console.error("Error saving product:", error);
       alert("Failed to save product.");
-    } finally {
       setUploading(false);
     }
   };
@@ -225,7 +329,11 @@ export default function ProductsPage() {
       state: product.state || "",
     });
     setImages([]);
-    setPreviewUrls(product.image_urls || []); // Show existing images as preview (note: strictly proper logic would treat File vs URL differently but simple toggle for now)
+    setPreviewUrls(product.image_urls || []);
+    setAiResult(null);
+    setAiError("");
+    setMatchedConsumers([]);
+    setShowMatches(false);
     setActiveTab("Upload Waste");
   };
 
@@ -235,8 +343,6 @@ export default function ProductsPage() {
     // Delete images
     if (imageUrls && imageUrls.length > 0) {
       const paths = imageUrls.map(url => {
-        // Extract path after /product-images/ 
-        // Example: .../product-images/123/file.jpg -> 123/file.jpg
         const match = url.match(/\/product-images\/(.*)/);
         return match ? match[1] : null;
       }).filter(Boolean) as string[];
@@ -269,6 +375,10 @@ export default function ProductsPage() {
     });
     setImages([]);
     setPreviewUrls([]);
+    setAiResult(null);
+    setAiError("");
+    setMatchedConsumers([]);
+    setShowMatches(false);
   };
 
   /* ================= LOCATION ================= */
@@ -307,6 +417,22 @@ export default function ProductsPage() {
         setLocationLoading(false);
       }
     );
+  };
+
+  /* ================= HELPER: Quality color ================= */
+  const getQualityColor = (quality: string) => {
+    switch (quality) {
+      case "high": return "text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400";
+      case "medium": return "text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30 dark:text-yellow-400";
+      case "low": return "text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400";
+      default: return "text-gray-600 bg-gray-100 dark:bg-gray-700 dark:text-gray-400";
+    }
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 70) return "bg-green-500";
+    if (score >= 40) return "bg-yellow-500";
+    return "bg-red-500";
   };
 
   return (
@@ -396,6 +522,7 @@ export default function ProductsPage() {
                       <th className="px-6 py-4 pointer-events-none">Image</th>
                       <th className="px-6 py-4">Product Name</th>
                       <th className="px-6 py-4">Category</th>
+                      <th className="px-6 py-4">AI Type</th>
                       <th className="px-6 py-4">Price</th>
                       <th className="px-6 py-4">Quantity</th>
                       <th className="px-6 py-4">Location</th>
@@ -428,6 +555,16 @@ export default function ProductsPage() {
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/5 dark:bg-foreground/15 text-foreground dark:text-foreground/50">
                             {product.category}
                           </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          {product.material_type ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400">
+                              <Sparkles size={10} />
+                              {product.material_type}
+                            </span>
+                          ) : (
+                            <span className="text-xs text-gray-400">—</span>
+                          )}
                         </td>
                         <td className="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">
                           ₹{product.price}
@@ -482,13 +619,15 @@ export default function ProductsPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="max-w-4xl mx-auto bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden"
+            className="max-w-4xl mx-auto space-y-6"
           >
+          {/* Upload Form Card */}
+          <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
           <div className="p-8 border-b dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
               {editingId ? "Edit Listing" : "Create New Listing"}
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Fill in the details to list your waste for sale.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Fill in the details to list your waste for sale. AI will automatically analyze your upload.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -654,7 +793,7 @@ export default function ProductsPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={uploading}
+                  disabled={uploading || aiAnalyzing}
                   className="bg-foreground text-background px-8 py-2.5 rounded-lg font-medium hover:bg-foreground/90 hover:text-background transition shadow-lg shadow-foreground/20 disabled:opacity-70 flex items-center gap-2"
                 >
                   {uploading && <Loader2 size={18} className="animate-spin" />}
@@ -664,6 +803,208 @@ export default function ProductsPage() {
             </div>
 
           </form>
+          </div>
+
+          {/* ================= AI ANALYSIS SECTION ================= */}
+          <AnimatePresence>
+            {/* AI Analyzing Spinner */}
+            {aiAnalyzing && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-8 rounded-2xl shadow-lg"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-full border-4 border-white/30 border-t-white animate-spin" />
+                    <Brain className="absolute inset-0 m-auto" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold">AI is Analyzing Your Waste...</h3>
+                    <p className="text-white/80 text-sm mt-1">
+                      Running image classification (CNN) and text analysis (NLP) to classify your waste material.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* AI Error */}
+            {aiError && !aiAnalyzing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-6 rounded-2xl"
+              >
+                <p className="text-red-700 dark:text-red-400 font-medium">⚠️ AI Analysis Failed</p>
+                <p className="text-red-600 dark:text-red-500 text-sm mt-1">{aiError}</p>
+                <p className="text-red-500 dark:text-red-600 text-xs mt-2">Make sure the Python AI service is running at localhost:8000</p>
+              </motion.div>
+            )}
+
+            {/* AI Results Card */}
+            {aiResult && !aiAnalyzing && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden"
+              >
+                {/* Header */}
+                <div className="p-6 border-b dark:border-gray-700 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-xl">
+                        <Sparkles size={22} />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">AI Classification Results</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Powered by CNN Image Recognition & NLP</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">{aiResult.confidence}%</span>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Confidence</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="p-6 space-y-6">
+                  {/* Material Type + Quality */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">Material Type</p>
+                      <p className="text-lg font-bold text-gray-900 dark:text-gray-100 capitalize">{aiResult.material_type}</p>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">Quality</p>
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold capitalize ${getQualityColor(aiResult.quality)}`}>
+                        {aiResult.quality}
+                      </span>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">AI Confidence</p>
+                      <p className="text-lg font-bold text-purple-600 dark:text-purple-400">{aiResult.confidence}%</p>
+                    </div>
+                  </div>
+
+                  {/* Recyclability Score Bar */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                        <Activity size={16} className="text-green-500" />
+                        Recyclability Score
+                      </span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-gray-100">{aiResult.recyclability_score}/100</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${aiResult.recyclability_score}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className={`h-full rounded-full ${getScoreColor(aiResult.recyclability_score)}`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Keywords */}
+                  {aiResult.keywords.length > 0 && (
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                        <Tag size={16} className="text-blue-500" />
+                        Detected Keywords
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {aiResult.keywords.map((keyword, i) => (
+                          <span key={i} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-medium">
+                            {keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Match Consumers Button */}
+                  <div className="pt-2">
+                    <button
+                      onClick={() => {
+                        const latestProduct = products.find(p => p.material_type === aiResult.material_type);
+                        const productId = editingId || latestProduct?.id;
+                        if (productId) fetchMatchedConsumers(productId);
+                      }}
+                      disabled={matchLoading}
+                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg disabled:opacity-70 flex items-center justify-center gap-2"
+                    >
+                      {matchLoading ? (
+                        <Loader2 size={18} className="animate-spin" />
+                      ) : (
+                        <Users size={18} />
+                      )}
+                      {matchLoading ? "Finding Matches..." : "Find Matched Consumers"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Matched Consumers Section */}
+                <AnimatePresence>
+                  {showMatches && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="border-t dark:border-gray-700 overflow-hidden"
+                    >
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                            <Users size={18} className="text-purple-600 dark:text-purple-400" />
+                            Matched Consumers ({matchedConsumers.length})
+                          </h4>
+                          <button
+                            onClick={() => setShowMatches(false)}
+                            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                          >
+                            <ChevronUp size={18} />
+                          </button>
+                        </div>
+
+                        {matchedConsumers.length === 0 ? (
+                          <p className="text-center text-gray-500 dark:text-gray-400 py-6">
+                            No matching consumers found. Consumers can set their requirements to be matched.
+                          </p>
+                        ) : (
+                          <div className="space-y-3">
+                            {matchedConsumers.map((consumer, i) => (
+                              <div key={i} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center font-bold text-sm">
+                                    #{i + 1}
+                                  </div>
+                                  <div>
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">{consumer.consumer_name || "Unknown"}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      {consumer.match_reasons.join(" • ")}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <span className="text-lg font-bold text-purple-600 dark:text-purple-400">{consumer.relevance_score}%</span>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400">match</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </motion.div>
         )}
       </AnimatePresence>
