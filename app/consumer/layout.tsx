@@ -88,8 +88,19 @@ export default function ConsumerLayout({
         className={`fixed inset-y-0 left-0 z-50 md:relative h-full bg-white dark:bg-gray-900 shadow transition-all duration-300 ease-in-out flex flex-col md:translate-x-0
           ${collapsed ? "-translate-x-full md:w-16" : "translate-x-0 w-64"}`}
       >
-        <div className="h-16 flex items-center justify-center text-lg font-bold text-foreground shrink-0 border-b">
-          {collapsed ? initials : <span className="truncate px-4">{userName}</span>}
+        <div className="h-16 flex items-center border-b shrink-0">
+          {collapsed ? (
+            <div className="w-full flex items-center justify-center text-lg font-bold text-foreground">
+              {initials}
+            </div>
+          ) : (
+            <div className="w-full flex items-center gap-3 px-4">
+              <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center font-semibold text-sm shrink-0">
+                {initials}
+              </div>
+              <span className="text-base font-bold text-foreground truncate">{userName}</span>
+            </div>
+          )}
         </div>
 
         {/* NAVIGATION */}
